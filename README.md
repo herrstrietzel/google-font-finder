@@ -1,8 +1,8 @@
 ﻿
 
-<div style="margin: 0 auto; height:200px; ">
-<img src="https://github.com/herrstrietzel/google-font-finder/blob/main/img/logo/gffi-logo.svg">
-</div>
+<center> 
+<img width="250" src="https://github.com/herrstrietzel/google-font-finder/blob/main/img/logo/gffi-logo.svg">
+</center> 
 
 # Gffi – a google font finder
 
