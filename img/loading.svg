@@ -1,0 +1,29 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	  width="595.281" height="595.28" viewBox="-11.83 123.305 595.281 595.28" xml:space="preserve">
+<rect x="-11.83" y="123.305" fill="none" width="595.281" height="595.28"/>
+<rect x="275.713" y="334.398" fill="#CCCCCC" width="20.194" height="57.698">
+<animate  fill="remove" restart="always" begin="0s" dur="1s" to="0" from="1" accumulate="none" repeatCount="indefinite" attributeName="opacity" calcMode="linear" additive="replace">
+	</animate>
+</rect>
+<rect x="325.681" y="363.248" transform="matrix(-0.5 -0.866 0.866 -0.5 164.1122 878.9402)" fill="#CCCCCC" width="20.195" height="57.697">
+<animate  fill="remove" restart="always" begin="0.16666666666666666s" dur="1s" to="0" from="1" accumulate="none" repeatCount="indefinite" attributeName="opacity" calcMode="linear" additive="replace">
+	</animate>
+</rect>
+<rect x="325.68" y="420.946" transform="matrix(0.5 -0.866 0.866 0.5 -221.6447 515.6837)" fill="#CCCCCC" width="20.195" height="57.697">
+<animate  fill="remove" restart="always" begin="0.3333333333333333s" dur="1s" to="0" from="1" accumulate="none" repeatCount="indefinite" attributeName="opacity" calcMode="linear" additive="replace">
+	</animate>
+</rect>
+<rect x="275.713" y="449.794" fill="#CCCCCC" width="20.194" height="57.697">
+<animate  fill="remove" restart="always" begin="0.5s" dur="1s" to="0" from="1" accumulate="none" repeatCount="indefinite" attributeName="opacity" calcMode="linear" additive="replace">
+	</animate>
+</rect>
+<rect x="225.745" y="420.945" transform="matrix(0.5 0.866 -0.866 0.5 507.459 20.6544)" fill="#CCCCCC" width="20.195" height="57.698">
+<animate  fill="remove" restart="always" begin="0.6666666666666666s" dur="1s" to="0" from="1" accumulate="none" repeatCount="indefinite" attributeName="opacity" calcMode="linear" additive="replace">
+	</animate>
+</rect>
+<rect x="225.745" y="363.247" transform="matrix(-0.5 0.866 -0.866 -0.5 693.3291 383.8991)" fill="#CCCCCC" width="20.194" height="57.698">
+<animate  fill="remove" restart="always" begin="0.8333333333333334s" dur="1s" to="0" from="1" accumulate="none" repeatCount="indefinite" attributeName="opacity" calcMode="linear" additive="replace">
+	</animate>
+</rect>
+</svg>

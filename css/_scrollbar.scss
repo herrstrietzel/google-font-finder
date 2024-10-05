@@ -1,0 +1,47 @@
+
+.scroll-content{
+    height:100%;
+    max-height:100vh;
+    overflow-y:auto;
+}
+
+
+
+/** scrollbars */
+.scrollbar {
+    &{
+        //scrollbar-color: var(--scroll-thumb) var(--sidebar-bg);
+        //scrollbar-width: thin;
+    }
+    &::-webkit-scrollbar {
+        width: var(--scroll-width);
+        border-radius: 0.5em;
+        background-color: transparent;
+        background-image: linear-gradient(90deg,
+                var(--sidebar-bg) 0%,
+                var(--sidebar-bg) 41%,
+                var(--scroll-thumb) 41%,
+                var(--scroll-thumb) 59%,
+                var(--sidebar-bg) 59%,
+                var(--sidebar-bg) 100%);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--scroll-thumb);
+        border-radius: 0.5em;
+    }
+
+    &::-webkit-scrollbar-track {
+        border-radius: 0.5em;
+    }
+}
+
+
+.scrollbar-neg {
+    //--scroll-thumb: var(--focus-color);
+    --scroll-thumb: var(--color-neg);
+    --sidebar-bg: rgba(255,255,255,0);
+
+    @extend .scrollbar;
+
+}

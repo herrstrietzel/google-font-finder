@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update font list</title>
+
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="lib/details-enhanced/details-enhanced.css">
+    <link rel="stylesheet" href="css/list.css">
+
+
+
+    <!-- previews -->
+    <script src="lib/ps-font-preview/convertPathData.js"></script>
+    <script src="lib/ps-font-preview/renderText.js"></script>
+
+
+    <script src="js/fontlist_globals.js"></script>
+    <script src="js/getGfontQueryUrl.js"></script>
+
+    <!-- 
+            <script src="js/ps-filter.js" defer></script>
+        <script src="ui_getfont_kit.js" defer></script>
+        <script src="fontlist_ui.js" ></script>
+    -->
+
+    <!-- 
+        <script src="js/parseFont5.js"></script>
+    -->
+
+    <script src="js/update_fontlist.js" defer></script>
+
+
+
+
+
+
+</head>
+
+<body>
+
+    <main class="pdd-1em">
+        <h1>Update Font list</h1>
+        <p>
+            <label> API Key</label>
+            <input id="inputAPI" type="text" value="AIzaSyDBXOkDLb08GXnLZq-USTIt0iSJfme4Spg"
+                placeholder="Enter API Key"> <br>
+
+            <span id="feedbackAPIkey"></span>
+            You can obtain an google fonts dev API key <a
+                href="https://developers.google.com/fonts/docs/developer_api">here</a>
+        </p>
+        <p id="pUpdate" class="dsp-non"><button type="button" class="btn-default" id="btnUpdateFontList">Update font
+                list data</button></p>
+
+        <p id="pStatus"></p>
+        <!-- 
+            <span id="feedback"></span><span id="fontsProcessed"></span><span id="fontsTotal"></span>
+        -->
+
+    </main>
+
+
+
+
+
+    <!-- add brotli and deflate decompression needed for woff and woff2 -->
+    <!-- 
+    <script src="https://cdn.jsdelivr.net/gh/Pomax/lib-font@master/lib/inflate.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Pomax/lib-font@master/lib/unbrotli.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Pomax/lib-font@master/lib-font.browser.js" type="module"></script>
+
+        -->
+
+
+
+    <script src='https://cdn.jsdelivr.net/npm/opentype.js@latest/dist/opentype.min.js'></script>
+
+
+
+
+    <script>
+
+/*
+(async()=>{
+
+    let fontUrl = 'https://fonts.gstatic.com/s/babylonica/v5/5aUw9_i2qxWVCAE2aHjTqDJ0-VVMoEw.ttf';
+    let text = 'Babylonica'
+    let fontSize = 500;
+    let fontSizeCanvas = 48;
+    let id="oi"
+
+
+    let buffer = await (await fetch(fontUrl)).arrayBuffer();
+    let font = opentype.parse(buffer);
+
+    let svgData = await renderText(font, text, fontSize, fontSizeCanvas, id);
+    console.log(svgData);
+
+    let svg = `<svg xmlns="http://www.w3.org/2000/svg" height="5rem" style="overflow:visible;outline:1px solid #ccc" viewBox="0 0 5000 1000">
+        ${svgData.markup}
+        </svg>`
+
+    document.body.insertAdjacentHTML('beforeend', svg)
+
+
+
+})()
+    */
+
+
+    </script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get font item</title>
+    <meta name="description"
+        content="Create fontkits by properties like category, supported languages, variable axes, OT features or supported styles">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#000000">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="lib/details-enhanced/details-enhanced.css">
+    <link rel="stylesheet" href="css/list.css">
+
+    <!-- 
+
+    -->
+
+
+    <!--icons -->
+    <link rel="stylesheet" href="lib/ps-icons/ps-icons.css">
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.2.2/dist/jszip.js" defer></script>
+    <script src="js/fontlist_globals.js" defer></script>
+    <script src="js/getGfontQueryUrl.js" defer></script>
+    <script src="js/ui_getfont_kit.js" defer></script>
+    <script src="lib/ps-filter/ps-filter.js" defer></script>
+    <script src="js/save_favs.js" defer></script>
+
+
+    <script src="lib/ps-icons/ps-icons.js" defer></script>
+
+
+
+    <!--temporary font styles for previews -->
+    <style id="stylePrevStatic"></style>
+    <style id="stylePrevVF"></style>
+
+
+
+
+
+</head>
+
+<body>
+    <!-- load styles -->
+    <style id="fontStyle"></style>
+
+    <main id="main" class="pdd-1em details-wrap details-enhanced details-plus dynamic-content dynamic-content-init">
+        <header
+            class="header-item dsp-flx alg-itm-cnt pst-sticky top-0 bck-clr-wht z-ind-1000 brd brd-btt mrg-1em mrg-btt">
+            <h1 id="h1Title" class="fnt-siz-3em"></h1>
+            <span class="label-wrp">
+                <span id="spanDesigners" class="label-designers"></span> &nbsp;
+                <span id="spanType" class="label-type"></span> &nbsp;
+                <button id="btnFav" class="btn-fav mrg-lft mrg-aut" data-fav="" title="Add to favorites">
+                    <svg viewBox="0 0 114 100" class="icn-svg icn-heart  ">
+                        <use href="#icn-heart" class="icn-fav --fnt-siz-1-5em" />
+                    </svg>
+                </button>
+            </span>
+
+        </header>
+
+
+
+        <article class="mrg-1em mrg-btt">
+            <details class="details-font-info" open>
+                <summary>Font info</summary>
+                <section id="sectionFontInfo">
+
+                </section>
+                <p class="mrg mrg-1em mrg-top">
+                    <a id="specimenLink" class="btn-default" href="https://fonts.google.com/specimen/ADLaM+Display"
+                        title="get font from google font" target="_blank" rel="noopener noreferrer"><span data-icon="link"></span> <span id="specimenLabel"></span></a>
+                </p>
+
+            </details>
+
+
+            <details open>
+                <summary class="">Preview Font</summary>
+                <label></label>
+
+                <div class="dsp-flx alg-itm-cnt  gap-1em mrg-1em mrg-btt">
+                    <div class="dsp-inl-flx flx-1 alg-itm-cnt gap-0-5em">
+                        <label>Preview Text</label>
+                        <input id="inputPreviewText" type="text" value="Hamburgefonsle 01234"
+                            placeholder="preview text">
+                    </div>
+                    <div class="dsp-inl-flx mrg-0 mrg-aut mrg-left flx-grw-0 alg-itm-cnt gap-0-5em">
+                        <label>Font size </label>
+                        <input id="inputFontSize" type="number" min="6" value="36">
+                    </div>
+                </div>
+
+
+                <article class="vf mrg-1em mrg-btt">
+                    <h4 class="label h2">Preview Variable <small class="fnt-siz-0-75em fnt-wgh-400">(editable)</small></h4>
+                    <header id="settingsVF" class="mrg-1em mrg-btt" style="font-size:1rem">
+                    </header>
+                    <article class="brd brd-rad pdd-1rem" style="font-size:36px" id="previewVF" contenteditable
+                        spellcheck=false>
+                    </article>
+                </article>
+
+                <article>
+                    <header id="settingsStatic" style="font-size:1rem">
+                    </header>
+                    <h4 class="label h2">Preview Static <small class="fnt-siz-0-75em fnt-wgh-400">(editable)</small></h4>
+                    <article class="brd brd-rad pdd-1rem" style="font-size:36px" id="previewStatic" contenteditable
+                        spellcheck=false>
+                    </article>
+                </article>
+
+            </details>
+        </article>
+
+
+        <article class="article-filters mrg-1em mrg-btt gap-1rem gap-2rem">
+
+            <!--general options-->
+            <details open>
+                <summary>General Options (variable and static)</summary>
+
+                <div class="grd grd-1 grd-md-6">
+                    <!--styles-->
+                    <section id="sectionStyles" class="spn-1 spn-md-3">
+                        <label>Styles</label>
+                    </section>
+
+                    <!--subsets-->
+                    <section id="sectionSubsets" class="spn-1 spn-md-3">
+                        <label>Subsets/language support</label>
+                    </section>
+
+                    <!--display options-->
+                    <section id="sectionDisplay" class="spn-1 spn-md-full">
+                        <label>CSS display options</label>
+                    </section>
+
+                    <section id="sectionDirectory" class="spn-1 spn-md-3">
+                        <label>CSS Font Path/Directory</label>
+                    </section>
+                    <section id="sectionTextSubset" class="spn-1 spn-md-3">
+                        <label>Subset via text string query</label>
+                    </section>
+                </div>
+            </details>
+
+            <details open>
+                <summary>Style/variant Options</summary>
+
+                <div class="grd grd-1 grd-md-2  gap-1em ">
+                    <!--variable options-->
+                    <section class="vf" id="sectionAxesNames">
+                        <label>Variable font Axes</label>
+                    </section>
+
+                    <!--static options-->
+                    <section id="sectionVariants">
+                        <label>Variants (weights and styles)</label>
+                    </section>
+                </div>
+
+            </details>
+
+        </article>
+
+
+        <!-- download btns-->
+        <article id="sectionBtns" class="grd grd-1 grd-md-2 gap-1rem mrg-1em mrg-btt --fnt-siz-1-5em">
+        </article>
+
+
+        <details open>
+            <summary class="">Google CSS API query</summary>
+
+            <!--urls-->
+            <details open>
+                <summary>URLs <small class="fnt-siz-0-75em fnt-wgh-400">(for &lt;link&gt; or @import)</small></summary>
+                <article class="--article-col grd grd-1 grd-md-2 gap-1rem">
+                    <p class="vf"><a id="aCSS_vf" class="txt-code" href=""></a></p>
+                    <p><a id="aCSS_static" class="txt-code" href=""></a></p>
+                </article>
+            </details>
+
+            <!--urls unfiltered -->
+            <details open>
+                <summary>URLs unfiltered</summary>
+                <article class="--article-col grd grd-1 grd-md-2 gap-1rem">
+                    <p class="vf"><a id="aCSS_vf_unfiltered" class="txt-code" href=""></a></p>
+                    <p><a id="aCSS_static_unfiltered" class="txt-code" href=""></a></p>
+
+
+                </article>
+            </details>
+
+
+            <details>
+                <summary>File links <small>(For using OT font features)</small></summary>
+                <h4 class="mrg mrg-1em mrg-top">File links:</h4>
+                <ul id="ulFileLinks"></ul>
+
+            </details>
+
+
+
+            <!-- filtered-->
+            <details>
+                <summary>CSS local</summary>
+                <article class="--article-col  grd grd-1 grd-md-2 gap-1rem">
+                    <section class="vf textareaWrp">
+                        <textarea class="txt-code" id="cssVF_local"></textarea>
+                    </section>
+                    <section class="textareaWrp">
+                        <textarea class="txt-code" id="cssStatic_local"></textarea>
+                    </section>
+                </article>
+            </details>
+
+            <!-- base 64 css-->
+
+            <details>
+                <summary>CSS standalone base64 encoded</summary>
+                <article class="--article-col  grd grd-1 grd-md-2 gap-1rem">
+
+                    <section class="vf textareaWrp">
+                        <p class="vf"><button id="btnGetBase64_vf" class="vf btn-default">Get standalone VF CSS</button>
+                        </p>
+                        <textarea class="vf txt-code" id="cssVF_base64"></textarea>
+                    </section>
+                    <section class="textareaWrp">
+
+                        <p><button id="btnGetBase64_static" class="btn-default">Get standalone static CSS</button></p>
+
+                        <textarea class="txt-code" id="cssStatic_base64"></textarea>
+                    </section>
+                </article>
+            </details>
+        </details>
+
+    </main>
+
+
+</body>
+
+</html>
