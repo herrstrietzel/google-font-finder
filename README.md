@@ -1,8 +1,6 @@
-﻿
 |--|
 |:--:|
 | ![logo](img/logo/gffi-logo.svg)|
-| **Gffi – a google font finder** |
 
 <p align="center">
 <img width="150" height="150" src="https://github.com/herrstrietzel/google-font-finder/blob/main/img/logo/gffi-logo.svg">
