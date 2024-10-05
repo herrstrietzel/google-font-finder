@@ -1,4 +1,5 @@
 ﻿
+|  |
 |:--:|
 | ![logo](img/logo/gffi-logo.svg)|
 | **Gffi – a google font finder** |
