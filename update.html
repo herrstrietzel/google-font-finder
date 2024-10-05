@@ -46,7 +46,7 @@
         <h1>Update Font list</h1>
         <p>
             <label> API Key</label>
-            <input id="inputAPI" type="text" value="AIzaSyDBXOkDLb08GXnLZq-USTIt0iSJfme4Spg"
+            <input id="inputAPI" type="text" value=""
                 placeholder="Enter API Key"> <br>
 
             <span id="feedbackAPIkey"></span>
@@ -57,64 +57,12 @@
                 list data</button></p>
 
         <p id="pStatus"></p>
-        <!-- 
-            <span id="feedback"></span><span id="fontsProcessed"></span><span id="fontsTotal"></span>
-        -->
+
 
     </main>
 
 
-
-
-
-    <!-- add brotli and deflate decompression needed for woff and woff2 -->
-    <!-- 
-    <script src="https://cdn.jsdelivr.net/gh/Pomax/lib-font@master/lib/inflate.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/Pomax/lib-font@master/lib/unbrotli.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/Pomax/lib-font@master/lib-font.browser.js" type="module"></script>
-
-        -->
-
-
-
     <script src='https://cdn.jsdelivr.net/npm/opentype.js@latest/dist/opentype.min.js'></script>
-
-
-
-
-    <script>
-
-/*
-(async()=>{
-
-    let fontUrl = 'https://fonts.gstatic.com/s/babylonica/v5/5aUw9_i2qxWVCAE2aHjTqDJ0-VVMoEw.ttf';
-    let text = 'Babylonica'
-    let fontSize = 500;
-    let fontSizeCanvas = 48;
-    let id="oi"
-
-
-    let buffer = await (await fetch(fontUrl)).arrayBuffer();
-    let font = opentype.parse(buffer);
-
-    let svgData = await renderText(font, text, fontSize, fontSizeCanvas, id);
-    console.log(svgData);
-
-    let svg = `<svg xmlns="http://www.w3.org/2000/svg" height="5rem" style="overflow:visible;outline:1px solid #ccc" viewBox="0 0 5000 1000">
-        ${svgData.markup}
-        </svg>`
-
-    document.body.insertAdjacentHTML('beforeend', svg)
-
-
-
-})()
-    */
-
-
-    </script>
-
-
 
 </body>
 

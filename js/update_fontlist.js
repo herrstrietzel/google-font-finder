@@ -7,14 +7,10 @@ let statusLog = {
 //update font data
 let limit = 0;
 
-
-
 window.addEventListener('DOMContentLoaded', e => {
-
 
     //font list
     let inputAPI = document.getElementById('inputAPI');
-    //AIzaSyDBXOkDLb08GXnLZq-USTIt0iSJfme4Spg
     let apiKey = '';
     let apiURL_vf_woff2,
         apiURL_static_woff2,
