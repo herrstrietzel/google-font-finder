@@ -1,7 +1,7 @@
 ﻿
 
 <p align="center">
-<img width="250" height="250" src="https://github.com/herrstrietzel/google-font-finder/blob/main/img/logo/gffi-logo.svg">
+<img width="150" height="150" src="https://github.com/herrstrietzel/google-font-finder/blob/main/img/logo/gffi-logo.svg">
 </p> 
 
 # Gffi – a google font finder
