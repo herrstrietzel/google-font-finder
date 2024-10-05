@@ -1,8 +1,10 @@
 ﻿
-|  |
-|:--:|
-| ![logo](img/logo/gffi-logo.svg)|
-| **Gffi – a google font finder** |
+
+<div style="margin: 0 auto; height:200px; ">
+<img src="https://github.com/herrstrietzel/google-font-finder/blob/main/img/logo/gffi-logo.svg">
+</div>
+
+# Gffi – a google font finder
 
 
 Find fonts by properties like category, supported languages, variable axes, OT features styles and create fontkits.  
