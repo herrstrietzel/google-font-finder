@@ -10,38 +10,19 @@ useCache = true;
 initFontList(useCache);
 
 //init feather icons
-feather.replace();
-
-
-
-/**
- * toggle darkmode
- */
-
-inputDarkmode.addEventListener('click', (e) => {
-    let darkmode = e.currentTarget.checked;
-    if (darkmode) {
-        document.body.classList.add('darkmode')
-        settings.darkmode = true;
-    } else {
-        document.body.classList.remove('darkmode')
-        settings.darkmode = false;
-    }
-
-    saveSettings(storageName, settings)
-    //console.log(settings);
-
-});
+//feather.replace();
 
 
 async function initFontList(useCache = true) {
 
 
+    /*
     let visited = settings.visited;
     if (visited) {
         //alert('visited')
         imgLogo.src = 'img/logo/gffi-logo.svg'
     }
+*/
 
     // reset list and filters
     ulFiltered.innerHTML = '';

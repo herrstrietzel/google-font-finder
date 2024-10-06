@@ -260,10 +260,8 @@ span[style*=text-decoration] {
 }
 
 .bck-neg {    
-
-    --focus-color: #fff;
-    background-color: var(--color-bg-neg);
-    color: #fff;
+    background-color: var(--color-text);
+    color: var(--color-bg);
 }
 
 .bck-gry {

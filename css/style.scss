@@ -5,25 +5,36 @@ $ld: 1170px;
 $xl: 1600px;
 
 
+
 :root {
     // colors
     --color1: black;
     --color2: hsl(350, 90%, 35%);
     --color3: hsl(350, 85%, 25%);
-    --color-neg: #fff;
-    --color-bg: #fff;
-    --color-bg-trans: rgba(255,255,255,0);
-    --color-text:#000;
+
+
+    --color-bg-orig: hsla(55, 15%, 95%, 1 );
+    --color-text-orig: hsl(55, 10%, 20%,  1);
+
+
+    --color-bg:var(--color-bg-orig);
+    --color-bg-trans: hsla(55, 10%, 98%, 0);
+
+    --color-text: var(--color-text-orig);
+    --color-neg: var(--color-bg);
+    --color-bg-neg: var(--color-text);
+
+
     --sidebar-bg: #fff;
     --scroll-thumb: #000;
     --scroll-width: 0.5rem;
     --color-scroll-bg: red;
     --color-scroll-thumb: var(--color3);
     --color-scroll-thumb-hover: var(--color2);
-    --color-bg-neg: #000;
     --hellgrau: #eee;
 
 
+    --color-focus: hsl(180, 80%, 20%);
     --focus-color: hsl(180, 80%, 20%);
     --focus-color: #000;
     --input-border-color: #777;
@@ -32,6 +43,7 @@ $xl: 1600px;
     --label-font-weight: 700;
     --label-color: #000;
     --selection: #eee;
+
 
 
     //grid gap
@@ -77,10 +89,11 @@ $xl: 1600px;
     --header-margin: 0.5rem;
     --p-margin: var(--line-height);
 
-
     --border-width: 1px;
-    --border-color: #000;
-    --border-color-neg: #fff;
+    --border-color: var(--color-text);
+    --border-color-neg: var(--color-bg);
+
+
     --border: var(--border-width) solid var(--border-color);
     --border-dotted: var(--border-width) dotted var(--border-color);
     --padding: 0.3em;
@@ -109,6 +122,12 @@ $xl: 1600px;
 @import '../fonts/Outfit/Outfit';
 
 
+body{
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+
 .txt-code{
     font-family:monospace;
 }
@@ -121,7 +140,7 @@ button,
 select,
 textarea{
     &:focus{
-        outline: 1px solid var(--focus-color);
+        //outline: 1px solid var(--focus-color);
     }
 }
 

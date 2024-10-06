@@ -210,14 +210,25 @@ details>details{
     margin: 2em 0;
 }
 
+.header-item {
+    margin-top: -2em;
+}
 
 .svg-logo {
-    font-size: 1em;
+    font-size: 1.25em;
     height: 4em;
     display: inline-block;
     overflow: visible;
     margin-bottom: 0.5em;
 }
+/*
+.logo-wrp {
+    width: 1em;
+    font-size: 5em;
+    line-height: 0;
+}
+*/
+
 
 .h1-main {
     font-size: 2.5em;
@@ -234,26 +245,38 @@ nav a {
     background-image: linear-gradient(0deg, var(--color-bg-trans) 0%, 10%, var(--color-bg) 100%);
 }
 
+.svg-preview {
+    fill: var(--color-text);
+}
+
+.svg-preview:hover {
+    fill: var(--color-focus);
+}
 
 .darkmode {
     --focus-color: #fff;
-    --color-bg: #000;
-    --color-text: #fff;
+    --color-bg: var(--color-text-orig);
+    --color-text:var(--color-bg-orig);
     --border-color: #fff;
-    --color-bg-trans: rgba(0, 0, 0, 0);
-    --scroll-thumb: var(--color-neg);
-    --sidebar-bg: rgba(255, 255, 255, 0);
 
     background: var(--color-bg);
-    color: var(--color-text);
+    color: var(--color-bg-orig);
+
+    .feather-input-icon {
+        --color-bg: var(--color-bg-orig);
+        --color-text: var(--color-text-orig);
+    }
+    
 
     #imgLogo {
         filter: grayscale(1) contrast(1) invert(1);
     }
 
     .svg-preview {
-        /* fill: var(--color-text)*/
+        fill: var(--color-text);
+        /*
         filter: grayscale(1) contrast(1) invert(1);
+        */
     }
 }
 
@@ -283,7 +306,6 @@ input {
 .labelDarkmode {
     --displayDark: none;
     --displayDark: inline-block;
-    ;
     --displayLight: inline-block;
     --opacityDark: 0;
     --opacityLight: 1;
@@ -363,12 +385,12 @@ input {
     --rotate: 180deg;
 }
 
-.svg__icon{
+.svg__icon {
     --fill: none;
     --stroke: var(--color-text, #000);
     --stroke-width: 0.5em;
-    overflow:visible;
-    height:1em;
+    overflow: visible;
+    height: 1em;
 
 }
 

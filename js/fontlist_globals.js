@@ -100,18 +100,6 @@ function toggleInitDisplay(sel = '.dynamic-content') {
     })
 }
 
-getDarkmode();
-
-function getDarkmode() {
-    let inputDarkmode = document.getElementById('inputDarkmode');
-    let darkmodePreferred = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    let useDarkmode = darkmodePreferred || settings.darkmode;
-
-    if (useDarkmode) {
-        if (inputDarkmode) inputDarkmode.checked = true;
-        document.body.classList.add('darkmode')
-    }
-}
 
 /**
  * settings to url
@@ -132,7 +120,7 @@ function decodeURlToSettings() {
         let item = params[prop];
 
         if (!settingProps.includes(prop)) {
-            let filterCats = [item.split(',')].flat().map(val => { return `cat_${prop}_${val}` });
+            let filterCats = [item.split(',')].flat().map(val => { return `cat_${prop}_${val.replaceAll(' ','-')}` });
             filterArr.push(...filterCats)
         } 
 
@@ -140,8 +128,8 @@ function decodeURlToSettings() {
 
     //filterArr = filterArr.flat()
     settings.filters = filterArr;
-    settings.favs = params.favs.split(',');
-    settings.darkmode = JSON.parse(params.darkmode);
+    settings.favs = params.favs ? params.favs.split(',') : settings.favs;
+    settings.darkmode = params.darkmode ? JSON.parse(params.darkmode) : settings.darkmode;
 
     saveSettings(storageName, settings);
 

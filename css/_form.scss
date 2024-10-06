@@ -222,7 +222,7 @@ input[type="range"] {
     display: inline-block;
     font-size: 1em;
     height: 1em;
-    transform: translateY(0.25em);
+    transform: translateY(0.2em);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -250,7 +250,7 @@ input[type="range"] {
 
 
 .input__range::-webkit-slider-runnable-track {
-    background-color: var(--scroll-thumb);
+    background-color: var(--color-text);
     border-radius: 0.5em;
     height: 0.25em;
 }
@@ -260,12 +260,11 @@ input[type="range"] {
     appearance: none;
     -webkit-transform: translateY(-40%);
     transform: translateY(-40%);
-    background-color: var(--scroll-thumb);
-    background-color: var(--border-color);
+    background-color: var(--color-text);
     height: 1em;
     width: 1em;
     border-radius: 1em;
-    outline: 0.2em solid var(--sidebar-bg);
+    border: 0.1em solid var(--color-bg);
 }
 
 .input__range:focus::-webkit-slider-thumb {
@@ -275,7 +274,7 @@ input[type="range"] {
 /******** Firefox styles ********/
 /* slider track */
 .input__range::-moz-range-track {
-    background-color: var(--scroll-thumb);
+    background-color: var(--color-text);
     border-radius: 0.5em;
     height: 0.25em;
 }
@@ -288,16 +287,16 @@ input[type="range"] {
     appearance: none;
     transform: translateY(0%);
     /*custom styles*/
-    background-color: var(--scroll-thumb);
-    background-color: var(--border-color);
+    background-color: var(--color-text);
     height: 1em;
     width: 1em;
     border-radius: 1em;
-    outline: 0.2em solid var(--sidebar-bg);
+    border: 0.1em solid var(--color-bg);
+
 }
 
 .input__range:focus::-moz-range-thumb {
-    background-color: var(--focus-color);
+    background-color: var(--color-focus);
 }
 
 

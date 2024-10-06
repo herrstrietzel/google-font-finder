@@ -14,11 +14,11 @@
     let fontName = isNaN(index) ? index.replaceAll('+', ' ') : '';
     */
 
-    let fontName = familyQuery.replaceAll('+', ' ');
-    //console.log('hash', hash, familyQuery , index, fontName)
-
+    let fontName = familyQuery.replaceAll('+', ' ').replaceAll('-', ' ');
     let item = fontList.filter(item => { return item.family === fontName })[0];
-    let { family, axes, subsets, variants, files_vf_woff2, files_static_woff2, files_vf_ttf, files_static_ttf, menu, designers, dateAdded, lastModified } = item;
+    let family, axes, subsets, variants, files_vf_woff2, files_static_woff2, files_vf_ttf, files_static_ttf, menu, designers, dateAdded, lastModified;
+
+    ({ family, axes, subsets, variants, files_vf_woff2, files_static_woff2, files_vf_ttf, files_static_ttf, menu, designers, dateAdded, lastModified } = item);
 
     /**
      * get info
