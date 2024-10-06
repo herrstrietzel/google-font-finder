@@ -73,7 +73,7 @@ function saveSettings(storageName, settings) {
     /**
      * save filters to cache
      */
-    let settingUrl = settingsToUrl(settings);
+    //let settingUrl = settingsToUrl(settings);
 
 }
 
@@ -110,6 +110,10 @@ function decodeURlToSettings() {
     let query = new URLSearchParams(window.location.search)
     let params = Object.fromEntries(query.entries());
 
+    let allSettings = Object.values(settings).flat();
+    let allUrlQueries = Object.values(params).flat();
+    //console.log(allUrlQueries, allSettings);
+
     if (!Object.keys(params).length) return false;
 
     //let filterProps = ['axesNames', 'category', 'family', 'variants'];
@@ -131,11 +135,14 @@ function decodeURlToSettings() {
     settings.favs = params.favs ? params.favs.split(',') : settings.favs;
     settings.darkmode = params.darkmode ? JSON.parse(params.darkmode) : settings.darkmode;
 
-    saveSettings(storageName, settings);
+    /*
+    if(allUrlQueries.length && !allSettings.length){
+        console.log('get settings from url');
+        saveSettings(storageName, settings);
+    }
+    */
 
 }
-
-
 
 function settingsToUrl(settings) {
 
@@ -175,7 +182,7 @@ function settingsToUrl(settings) {
     }
 
     //update url
-    window.history.replaceState({ path: queryUrl }, '', queryUrl);
+    //window.history.replaceState({ path: queryUrl }, '', queryUrl);
     return queryUrl;
 
 }
