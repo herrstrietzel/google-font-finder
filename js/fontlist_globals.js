@@ -39,9 +39,6 @@ let filterProps = [
 let presetsFilter = ['category', 'variants'];
 
 
-
-
-
 // get settings from localstorage
 let storageName = 'gff_settings';
 let settingsStorage = localStorage.getItem(storageName)
@@ -52,8 +49,11 @@ let settings = settingsStorage ?
         filters: [],
         visited: false,
         apiKey: '',
-        darkmode: false
+        darkmode: false,
+        confirmAccess: false
     }
+
+let excludedParams = ['darkmode', 'confirmAccess'];
 
 
 /**
@@ -71,9 +71,9 @@ function saveSettings(storageName, settings) {
     localStorage.setItem(storageName, JSON.stringify(settings))
 
     /**
-     * save filters to cache
+     * filters to url
      */
-    //let settingUrl = settingsToUrl(settings);
+    let settingUrl = settingsToUrl(settings);
 
 }
 
@@ -124,9 +124,9 @@ function decodeURlToSettings() {
         let item = params[prop];
 
         if (!settingProps.includes(prop)) {
-            let filterCats = [item.split(',')].flat().map(val => { return `cat_${prop}_${val.replaceAll(' ','-')}` });
+            let filterCats = [item.split(',')].flat().map(val => { return `cat_${prop}_${val.replaceAll(' ', '-')}` });
             filterArr.push(...filterCats)
-        } 
+        }
 
     }
 
@@ -135,12 +135,12 @@ function decodeURlToSettings() {
     settings.favs = params.favs ? params.favs.split(',') : settings.favs;
     settings.darkmode = params.darkmode ? JSON.parse(params.darkmode) : settings.darkmode;
 
-    /*
-    if(allUrlQueries.length && !allSettings.length){
-        console.log('get settings from url');
-        saveSettings(storageName, settings);
+
+    if (allUrlQueries.length && !allSettings.length) {
     }
-    */
+    //console.log('get settings from url');
+    saveSettings(storageName, settings);
+
 
 }
 
@@ -148,8 +148,10 @@ function settingsToUrl(settings) {
 
     let queryObj = {};
     let queryUrl = '';
+
+    //console.log('update settings to url');
     for (prop in settings) {
-        if (prop !== 'apiKey' && prop !== 'visited') {
+        if (prop !== 'apiKey' && prop !== 'visited' && prop!=='darkmode' && prop!=='confirmAccess') {
             let vals = [settings[prop]].flat();
 
             if (prop === 'filters') {
@@ -173,16 +175,71 @@ function settingsToUrl(settings) {
     }
 
 
-    let firstProp = Object.keys(queryObj)[0]
+    let operator = '?';
     for (prop in queryObj) {
         let values = [queryObj[prop]].flat();
-        let operator = prop === firstProp ? '?' : '&';
-        queryUrl += `${operator}${prop}=${values.join(',')}`
+        //let operator = prop === firstProp ? '?' : '&';
+        if (values.length) {
+            queryUrl += `${operator}${prop}=${values.join(',')}`
+            operator = '&';
+        }
 
     }
 
     //update url
-    //window.history.replaceState({ path: queryUrl }, '', queryUrl);
+    queryUrl = queryUrl ? queryUrl : window.location.origin + window.location.pathname;
+    window.history.replaceState({ path: queryUrl }, '', queryUrl);
     return queryUrl;
 
 }
+
+
+function renderAccessConfirmCheckbox(target){
+
+    let checkMarkup=
+    `<div class="input-wrap mrg-1em mrg-btt">
+    <h3>Privacy settings</h3>
+    <p>Some functions like fontkit creation and font preview require access to google servers</<br>Your settings will be saved in local storage</p>
+    <label><input id="inputConfirmAccess" name="apiAccess" type="checkbox" value="true"> Allow loading data from google servers</label>
+    </div>`;
+
+    if(target) target.insertAdjacentHTML('beforeend', checkMarkup)
+
+}
+
+let detailsPrivacy = document.getElementById('detailsPrivacy')
+let mainItem = document.getElementById('mainItem')
+
+let confirmAccessWrap = document.getElementById('confirmAccessWrap')
+renderAccessConfirmCheckbox(confirmAccessWrap);
+let inputConfirmAccess = document.getElementById('inputConfirmAccess')
+bindConfirmInput(inputConfirmAccess)
+
+
+function bindConfirmInput(inp){
+    if(inp){
+
+        if(detailsPrivacy && !settings.confirmAccess){
+            detailsPrivacy.open = true
+        }
+
+        //hide in item view if confirmed
+        if(mainItem && settings.confirmAccess){
+            confirmAccessWrap.classList.add('dsp-non')
+        }
+
+        inp.checked = settings.confirmAccess;
+        inp.addEventListener('click', e=>{
+            settings.confirmAccess = e.currentTarget.checked
+            //console.log(settings);
+            saveSettings(storageName, settings)
+            if(mainItem){
+                window.location.reload();
+
+            }
+        })
+    }
+
+
+}
+//ulFiltered

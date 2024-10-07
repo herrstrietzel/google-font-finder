@@ -219,8 +219,9 @@ details>details{
     height: 4em;
     display: inline-block;
     overflow: visible;
-    margin-bottom: 0.5em;
+    margin-bottom: 0em;
 }
+
 /*
 .logo-wrp {
     width: 1em;
@@ -228,6 +229,13 @@ details>details{
     line-height: 0;
 }
 */
+
+#confirmAccessWrap {
+    background: rgb(255, 0, 0);
+    color: #fff;
+    padding: 1em;
+    border-radius: 0.5em;
+}
 
 
 .h1-main {
@@ -256,7 +264,7 @@ nav a {
 .darkmode {
     --focus-color: #fff;
     --color-bg: var(--color-text-orig);
-    --color-text:var(--color-bg-orig);
+    --color-text: var(--color-bg-orig);
     --border-color: #fff;
 
     background: var(--color-bg);
@@ -266,7 +274,7 @@ nav a {
         --color-bg: var(--color-bg-orig);
         --color-text: var(--color-text-orig);
     }
-    
+
 
     #imgLogo {
         filter: grayscale(1) contrast(1) invert(1);

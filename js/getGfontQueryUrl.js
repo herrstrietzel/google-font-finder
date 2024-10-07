@@ -37,9 +37,10 @@ function generateGoogleFontAPIUrl(fontProperties, filter = {}) {
 
     let weightsRegular = variants.filter(val => { return !val.includes('italic') }).map(Number).filter(Boolean);
     let weightsItalic = variants.filter(val => { return val.includes('italic') }).map(weight => { return parseFloat(weight) }).filter(Boolean)
-    let pre_stc = weightsItalic.length ? (weightsRegular.length ? ['ital', 'wght'] : ['ital']) : ['wght'];
+    let pre_stc = weightsItalic.length ? ['ital', 'wght'] : ['wght'];
     let post_stc = [];
 
+    //console.log(weightsRegular, weightsItalic);
 
     if (weightsRegular.length) {
         // prepend 0 or 1 if italic variant is selected
@@ -135,6 +136,7 @@ async function getCSSSubsetArr(href, filter = {}) {
     for (let i = 0; i < subsetRules.length; i++) {
         //let subsetRule = subsetRules[i];
         let subsetName = subsetText ? subsetText : subsetRules[i].split("*/")[0].trim();
+        //console.log();
         let style = cssRules[i].style;
 
         let fontFamily = style.getPropertyValue('font-family').replaceAll('"', "");

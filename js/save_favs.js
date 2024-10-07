@@ -54,13 +54,19 @@ function initFavBtns() {
                     <button class="btn-fav btn-fav-active" data-fav="${fav}" title="Add to favorites">
                     <svg viewBox="0 0 114 100" class="icn-svg icn-heart ">
                     <use href="#icn-heart" class="icn-fav" /></svg>
-                    </button> ${fav}
+                    </button>
+                    <a href="item.html?family=${familyUrl}" data-dialog-src="item.html?family=${familyUrl}" data-dialog="#dialog">${fav}</a>
                 </li>`
             })
             favList += `</ul>`;
             sectionFavs.innerHTML = favList;
             // add events
             bindFavbtns()
+
+
+            //bind dialog btns
+            bindDialogBtns('dialog')
+
         }
     }
 
@@ -72,11 +78,15 @@ function initFavBtns() {
 
             // reset list
             sectionFavs.innerHTML = '';
+            favCounter.innerHTML = 0;
 
 
             //update settings
             resetSettings(storageName, settings, 'favs')
-            //window.localStorage.setItem('gff_settings', JSON.stringify(settings));
+            saveSettings(storageName, settings);
+
+            let url = settingsToUrl(settings);
+            console.log('settings', settings, 'url', url);
 
             let btnsActive = document.querySelectorAll('.btn-fav-active')
             btnsActive.forEach(btn => {

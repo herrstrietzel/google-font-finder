@@ -40,7 +40,7 @@
     <link rel="stylesheet" href="lib/ps-style-inputs/ps-style-inputs.css">
     <script src="lib/ps-style-inputs/ps-style-inputs.js" defer></script>
 
-    <script src="js/toggle_darkmode.js" defer></script> 
+    <script src="js/toggle_darkmode.js" defer></script>
 
 
 
@@ -59,7 +59,7 @@
     <!-- load styles -->
     <style id="fontStyle"></style>
 
-    <main id="main" class="pdd-1em details-wrap details-enhanced details-plus dynamic-content dynamic-content-init">
+    <main id="mainItem" class="pdd-1em details-wrap details-enhanced details-plus dynamic-content dynamic-content-init">
         <header
             class="header-item dsp-flx alg-itm-cnt pst-sticky top-0 bck-clr-wht z-ind-1000 brd brd-btt mrg-1em mrg-btt">
             <h1 id="h1Title" class="fnt-siz-3em"></h1>
@@ -78,6 +78,13 @@
 
 
         <article class="mrg-1em mrg-btt">
+
+
+            <!--confirm api access-->
+            <section id="confirmAccessWrap"></section>
+
+
+
             <details class="details-font-info" open>
                 <summary>Font info</summary>
                 <section id="sectionFontInfo">
@@ -85,13 +92,14 @@
                 </section>
                 <p class="mrg mrg-1em mrg-top">
                     <a id="specimenLink" class="btn-default" href="https://fonts.google.com/specimen/ADLaM+Display"
-                        title="get font from google font" target="_blank" rel="noopener noreferrer"><span data-icon="link"></span> <span id="specimenLabel"></span></a>
+                        title="get font from google font" target="_blank" rel="noopener noreferrer"><span
+                            data-icon="link"></span> <span id="specimenLabel"></span></a>
                 </p>
 
             </details>
 
 
-            <details open>
+            <details id="detailsPreview" open>
                 <summary class="">Preview Font</summary>
                 <label></label>
 
@@ -109,7 +117,8 @@
 
 
                 <article class="vf mrg-1em mrg-btt">
-                    <h4 class="label h2">Preview Variable <small class="fnt-siz-0-75em fnt-wgh-400">(editable)</small></h4>
+                    <h4 class="label h2">Preview Variable <small class="fnt-siz-0-75em fnt-wgh-400">(editable)</small>
+                    </h4>
                     <header id="settingsVF" class="mrg-1em mrg-btt" style="font-size:1rem">
                     </header>
                     <article class="brd brd-rad pdd-1rem" style="font-size:36px" id="previewVF" contenteditable
@@ -120,7 +129,8 @@
                 <article>
                     <header id="settingsStatic" style="font-size:1rem">
                     </header>
-                    <h4 class="label h2">Preview Static <small class="fnt-siz-0-75em fnt-wgh-400">(editable)</small></h4>
+                    <h4 class="label h2">Preview Static <small class="fnt-siz-0-75em fnt-wgh-400">(editable)</small>
+                    </h4>
                     <article class="brd brd-rad pdd-1rem" style="font-size:36px" id="previewStatic" contenteditable
                         spellcheck=false>
                     </article>
@@ -204,8 +214,6 @@
                 <article class="--article-col grd grd-1 grd-md-2 gap-1rem">
                     <p class="vf"><a id="aCSS_vf_unfiltered" class="txt-code" href=""></a></p>
                     <p><a id="aCSS_static_unfiltered" class="txt-code" href=""></a></p>
-
-
                 </article>
             </details>
 
@@ -220,7 +228,7 @@
 
 
             <!-- filtered-->
-            <details>
+            <details id="detailsCSSLocal">
                 <summary>CSS local</summary>
                 <article class="--article-col  grd grd-1 grd-md-2 gap-1rem">
                     <section class="vf textareaWrp">
@@ -234,7 +242,7 @@
 
             <!-- base 64 css-->
 
-            <details>
+            <details id="detailsCSSBase64">
                 <summary>CSS standalone base64 encoded</summary>
                 <article class="--article-col  grd grd-1 grd-md-2 gap-1rem">
 

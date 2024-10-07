@@ -8,11 +8,7 @@
     // get item by index number or name
     let familyQuery = new URLSearchParams(window.location.search).get('family') || '';
 
-    /*
-    let hash = window.location.hash;
-    let index = hash ? hash.substring(1) : 0;
-    let fontName = isNaN(index) ? index.replaceAll('+', ' ') : '';
-    */
+
 
     let fontName = familyQuery.replaceAll('+', ' ').replaceAll('-', ' ');
     let item = fontList.filter(item => { return item.family === fontName })[0];
@@ -185,11 +181,24 @@
     aCSS_static_unfiltered.textContent = aCSS_static_unfiltered.href;
 
 
+    let subsetsStatic = { latin: [] }
+    let cssStatic_obj_unfiltered = { css: '' }
+    let subsetsVF = { latin: [] }
+    let cssVF_obj_unfiltered = { css: '' };
+
     // init CSS parsing - unfiltered
-    let subsetsStatic = await getCSSSubsetArr(queryURLComplete.static);
-    let cssStatic_obj_unfiltered = getNewCSS(subsetsStatic, {}, false);
-    let subsetsVF = await getCSSSubsetArr(queryURLComplete.variable);
-    let cssVF_obj_unfiltered = getNewCSS(subsetsVF, {}, false);
+    if (settings.confirmAccess) {
+        //alert('please allow')
+        //return false
+        subsetsStatic = await getCSSSubsetArr(queryURLComplete.static);
+        cssStatic_obj_unfiltered = getNewCSS(subsetsStatic, {}, false);
+        subsetsVF = await getCSSSubsetArr(queryURLComplete.variable);
+        cssVF_obj_unfiltered = getNewCSS(subsetsVF, {}, false);
+
+        //console.log('subsetsStatic', subsetsStatic);
+
+    }
+
 
 
     //render filters
@@ -203,7 +212,11 @@
 
 
     filter = getCurrentFilterObject(filterInputs);
-    let cssData = await getFilteredFontData(properties, filter, useProxy);
+
+    let cssData = { static: { css: '', files: [] }, variable: { css: '', files: [] } }
+    if (settings.confirmAccess) cssData = await getFilteredFontData(properties, filter, useProxy);
+    //console.log('cssData', cssData);
+
 
     let fontExportData = {
         variable: cssData.variable,
@@ -244,18 +257,21 @@
      * generate zip download btn
      */
 
-    //VF files
-    if (item.axesNames.length) {
-        generateDownloadBtn('btnCreateFontkit_Vf', 'sectionBtns', 'variable', ['Get VF fontkit', 'loading ...', 'Download VF fonkit']);
-    }
-    generateDownloadBtn('btnCreateFontkit_Static', 'sectionBtns', 'static', ['Get static fontkit', 'loading ...', 'Download static fonkit']);
+    if (settings.confirmAccess) {
 
-    // unsubset/complete font files
-    if (item.axesNames.length) {
-        generateDownloadBtn('btnCreateFontkit_Vf_unsubset', 'sectionBtns', 'variable_unsubset', ['Get VF fontkit (all languages, features)', 'loading ...', 'Download VF fonkit (unsubset)']);
-    }
-    generateDownloadBtn('btnCreateFontkit_Static_unsubset', 'sectionBtns', 'static_unsubset', ['Get static fontkit (all languages, features)', 'loading ...', 'Download static fonkit']);
+        //VF files
+        if (item.axesNames.length) {
+            generateDownloadBtn('btnCreateFontkit_Vf', 'sectionBtns', 'variable', ['Get VF fontkit', 'loading ...', 'Download VF fonkit']);
+        }
+        generateDownloadBtn('btnCreateFontkit_Static', 'sectionBtns', 'static', ['Get static fontkit', 'loading ...', 'Download static fonkit']);
 
+        // unsubset/complete font files
+        if (item.axesNames.length) {
+            generateDownloadBtn('btnCreateFontkit_Vf_unsubset', 'sectionBtns', 'variable_unsubset', ['Get VF fontkit (all languages, features)', 'loading ...', 'Download VF fonkit (unsubset)']);
+        }
+        generateDownloadBtn('btnCreateFontkit_Static_unsubset', 'sectionBtns', 'static_unsubset', ['Get static fontkit (all languages, features)', 'loading ...', 'Download static fonkit']);
+
+    }
 
 
 
@@ -266,7 +282,6 @@
             let btn = e.currentTarget;
             let prop = btn.dataset.prop;
             let data = fontExportData[prop];
-            //console.log(data);
 
             let linkDownload = btn.nextElementSibling;
             let state = btn.dataset.state;
@@ -283,6 +298,8 @@
             if (state === 'init') {
                 state = setBtnState(btn, 'loading')
                 let css = data.css ? data.css : '';
+                console.log('zip data', css);
+
                 await zipFontKit(data.files, fontFamily, css, linkDownload, dir);
                 state = setBtnState(btn, 'ready')
             }
@@ -295,6 +312,17 @@
 
 
     /**
+     * hide elements
+     * not working without API access
+     */
+    if(!settings.confirmAccess){
+        detailsPreview.classList.add('dsp-non')
+        detailsCSSLocal.classList.add('dsp-non')
+        detailsCSSBase64.classList.add('dsp-non')
+    }
+    
+
+    /**
       * update font kits
       * according to filters
       */
@@ -303,13 +331,16 @@
 
             // update font kit
             filter = getCurrentFilterObject(filterInputs);
-            let cssData = await getFilteredFontData(properties, filter, useProxy)
-            dir = document.querySelector('[name=directory]').value;
 
-
-            // update export data object
-            fontExportData.static = cssData.static;
-            fontExportData.variable = cssData.variable;
+            if(settings.confirmAccess){
+                let cssData = await getFilteredFontData(properties, filter, useProxy)
+                dir = document.querySelector('[name=directory]').value;
+    
+                //console.log('cssData new', cssData, filter);
+                // update export data object
+                fontExportData.static = cssData.static;
+                fontExportData.variable = cssData.variable;
+            }
 
             // reset btn state
             btnsZip.forEach(btnZip => {
@@ -327,7 +358,6 @@
      */
     let previewText = inputPreviewText.value;
     //console.log(cssVF_obj_unfiltered.css);
-
 
     let CSSVF = cssVF_obj_unfiltered.css.replaceAll(item.family, item.family + ' VF');
     stylePrevVF.textContent = `
@@ -384,7 +414,6 @@
         let { axes } = item;
         let sliders = '';
         axes.forEach(axis => {
-            console.log(axis);
             sliders += `<label>${axis.tag} <input class="axis-slider" type="range" data-axis="${axis.tag}" min="${axis.start}" max="${axis.end}" value="${axis.default}"> <span class="axesValues fnt-wgh-400">${axis.start}–${axis.end} | <span class="axesVal">${axis.default}</span></span> </label>`
         });
 
@@ -513,7 +542,7 @@ ${iconFile}
         let fileDir = ''
 
 
-        if(dir.includes('..')){
+        if (dir.includes('..')) {
             //dir = 'root/'+dir.replaceAll('..', '')
             fileDir = dir.replaceAll('../', '')
             cssDir = 'css/';

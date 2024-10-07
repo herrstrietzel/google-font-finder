@@ -3,7 +3,7 @@ let results = 0;
 let fontListFiltered = fontList;
 let flush = window.location.hash === '#flush' ? true : false;
 let useCache = flush ? false : true;
-useCache = true;
+useCache = false;
 
 //console.log('flush', flush, useCache);
 //console.log('settings', settings);
@@ -235,6 +235,8 @@ function setFilterInputs(filterCache) {
         let family = sel.includes('family_') ? sel.split('cat_family_').splice(-1)[0] : '';
         let input = document.querySelector(`[data-filtervalue=${sel}]`)
 
+        if(!input) return false;
+
         if (family) {
             input = inputFontFamily;
             input.value = family.replaceAll('-', ' ')
@@ -269,6 +271,7 @@ function resetFilters(selectorInput) {
 
     filterInputs[0].dispatchEvent(new Event('input'));
     resetSettings(storageName, settings, 'filters')
+    settingsToUrl(settings);
 
 }
 

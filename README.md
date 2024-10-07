@@ -1,5 +1,5 @@
-<p align="center">
-<img width="150" height="150" src="https://github.com/herrstrietzel/google-font-finder/blob/main/img/logo/gffi-logo.svg">
+<p align="center" style="text-align:center">
+<img width="150" height="150" style="display:inline-block" src="https://raw.githubusercontent.com/herrstrietzel/google-font-finder/refs/heads/main/img/logo/gffi-logo.svg">
 </p> 
 
 # Gffi – a google font finder
