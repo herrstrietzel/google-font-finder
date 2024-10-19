@@ -19,6 +19,7 @@ function initFavBtns() {
             settings = getSettings(storageName)
             toggleFavBtns();
             updateFavReport()
+            updateConfirmAccess()
         })
     })
 
@@ -44,9 +45,10 @@ function initFavBtns() {
 
     function updateFavReport() {
         if (favCounter) {
-            favCounter.textContent = settings.favs.length;
-            let favList = '<ul id="ulFavs" class="ul-favs">'
-            settings.favs.forEach(fav => {
+            favCounter.textContent = settings.favs ? settings.favs.length : 0;
+            let favList = '<ul id="ulFavs" class="ul-favs">';
+            let favArr = settings.favs ? settings.favs : [];
+            favArr.forEach(fav => {
                 let familyUrl = fav.replaceAll(' ', '+');
 
                 favList +=
@@ -86,7 +88,7 @@ function initFavBtns() {
             saveSettings(storageName, settings);
 
             let url = settingsToUrl(settings);
-            console.log('settings', settings, 'url', url);
+            //console.log('settings', settings, 'url', url);
 
             let btnsActive = document.querySelectorAll('.btn-fav-active')
             btnsActive.forEach(btn => {

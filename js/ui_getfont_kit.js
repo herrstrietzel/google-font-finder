@@ -1,3 +1,13 @@
+
+
+let inIframe = window.self !== window.top;
+
+if(!inIframe ){
+    headerLogo.classList.remove('dsp-non')
+}
+
+
+
 // init UI
 (async () => {
 
@@ -9,9 +19,9 @@
     let familyQuery = new URLSearchParams(window.location.search).get('family') || '';
 
 
-
     let fontName = familyQuery.replaceAll('+', ' ').replaceAll('-', ' ');
-    let item = fontList.filter(item => { return item.family === fontName })[0];
+    let item = fontList.filter(item => { return item.family.toLowerCase() === fontName.toLowerCase() })[0];
+
     let family, axes, subsets, variants, files_vf_woff2, files_static_woff2, files_vf_ttf, files_static_ttf, menu, designers, dateAdded, lastModified;
 
     ({ family, axes, subsets, variants, files_vf_woff2, files_static_woff2, files_vf_ttf, files_static_ttf, menu, designers, dateAdded, lastModified } = item);
@@ -24,11 +34,21 @@
     spanType.textContent = item.axesNames.length ? 'VF' : '';
 
     //icons
-    let iconDesigners = `<svg viewBox="0 0 85 100" class="icn-svg icn-user "><use href="#icn-user" /></svg>`;
+    //let iconDesigners = `<svg viewBox="0 0 85 100" class="icn-svg icn-user "><use href="#icn-user" /></svg>`;
+    let iconDesigners = ``;
+
     //let iconFiles = `<svg viewBox="0 0 71 100" class="icn-svg icn-file "><use href="#icn-file"/></svg>`;
     //let iconlink = `<svg viewBox="0 0 87 100" class="icn-svg icn-link "><use href="#icn-link"></use></svg>`;
 
-    spanDesigners.innerHTML = designerInfo ? `${iconDesigners} ${designerInfo}` : '';
+    spanDesigners.innerHTML = designerInfo ? `${designerInfo}` : '';
+    
+    //linkDesigner.href= `https://fonts.google.com/?query=${designerInfo.replaceAll(' ','+')}`
+    //https://fonts.google.com/?query=Anja+Meiners
+
+
+    let familyUrl = family.replaceAll(' ', '+');
+
+    //linkLicence.href= `https://fonts.google.com/specimen/${familyUrl}/license`
 
     let googleLink = `https://fonts.google.com/specimen/${family.replaceAll(' ', '+')}`;
     specimenLink.href = googleLink;
@@ -45,10 +65,27 @@
         let vals = Array.isArray(item[prop]) ? item[prop].join(', ') : item[prop];
 
         if (vals.length || !isNaN(vals)) {
-            propInfo += `<strong>${prop}:</strong> ${vals} <br>`
+            if(prop==='designers'){
+                propInfo += `<strong>${prop}:</strong> `
+                //${vals} <br>`
+
+                let designers = vals.split(', ')
+                let designerLinks = designers.map(des=>{return `<a href="https://fonts.google.com/?query=${des.replaceAll(' ', '+')}">${des}</a>` }).join(', ');
+                propInfo +=designerLinks +'<br>'
+
+
+            }else{
+                propInfo += `<strong>${prop}:</strong> ${vals} <br>`
+
+            }
 
         }
     }
+
+    propInfo += `<strong>§ <a href="https://fonts.google.com/specimen/${familyUrl}/license">See Licence</a></strong> <br>`;
+
+
+
 
     infoText += propInfo;
 

@@ -7,13 +7,6 @@ let useProxy = false;
 let proxyUrl = window.location.href.split('/').slice(0, -1).join('/') + '/php/proxy/';
 
 
-// inputs and selectors
-let selectorInput = '.inpFilter';
-let btnResetSettings = document.getElementById('btnResetSettings');
-let inputFontFamily = document.getElementById('inputFontFamily');
-
-
-
 (async () => {
     let testPhp = await (await fetch(phpUrl)).text();
     hasPhp = testPhp === 'php available';
@@ -67,10 +60,21 @@ let excludedParams = ['darkmode', 'confirmAccess'];
  * get settings from url
  */
 decodeURlToSettings();
-//console.log(settings);
 
 
+/*
+let settingsTest = {
+    filters:["cat_family_open-sans"]
+}
+let testQuery = settingsToUrl(settingsTest)
+console.log('testQuery', testQuery);
+*/
+
+
+//let filterArrCacheName = 'fontPropertyFilter';
+//let filterArrCache = settings.filters;
 let filterCache = settings.filters;
+
 
 function saveSettings(storageName, settings) {
     localStorage.setItem(storageName, JSON.stringify(settings))
@@ -78,15 +82,10 @@ function saveSettings(storageName, settings) {
     /**
      * filters to url
      */
-    let settingUrl = settingsToUrl(settings);
+    //let settingUrl = settingsToUrl(settings);
 
 }
 
-if(btnResetSettings){
-    btnResetSettings.onclick=()=>{
-        resetSettings(storageName, settings)
-    }
-}
 
 function resetSettings(storageName, settings = {}, prop = '') {
     if (settings, prop) {
@@ -120,28 +119,36 @@ function decodeURlToSettings() {
     let query = new URLSearchParams(window.location.search)
     let params = Object.fromEntries(query.entries());
 
-    //get font family
-    if(inputFontFamily && params.family){
-        inputFontFamily.value = params.family;
-    }
+    let allSettings = Object.values(settings).flat();
+    let allUrlQueries = Object.values(params).flat();
+    console.log('params', params);
 
     if (!Object.keys(params).length) return false;
 
+    //let filterProps = ['axesNames', 'category', 'family', 'variants'];
+    let settingProps = ['favs', 'darkmode'];
 
     let filterArr = [];
     for (let prop in params) {
         let item = params[prop];
 
+        if (!settingProps.includes(prop)) {
+            let filterCats = [item.split(',')].flat().map(val => { return `cat_${prop}_${val.toLowerCase().replace(/[ |+]/gi,'-' )}` });
+            filterArr.push(...filterCats)
+            console.log('filterArr', filterArr);
+        }
 
-        let filterCats = [item.split(',')].flat().map(val => { return `cat_${prop}_${val.toLowerCase().replace(/[ |+]/gi,'-' )}` });
-        filterArr.push(...filterCats)
-        //console.log('filterArr', filterArr);
-        
     }
 
+    //filterArr = filterArr.flat()
     settings.filters = filterArr;
     settings.favs = params.favs ? params.favs.split(',') : settings.favs;
     settings.darkmode = params.darkmode ? JSON.parse(params.darkmode) : settings.darkmode;
+
+
+    if (allUrlQueries.length && !allSettings.length) {
+    }
+    //console.log('get settings from url', settings);
 
     saveSettings(storageName, settings);
 
@@ -153,7 +160,7 @@ function settingsToUrl(settings) {
     let queryObj = {};
     let queryUrl = '';
 
-    //console.log('settingsUrl:', settings)
+    console.log('settings', settings)
 
     //console.log('update settings to url');
     for (prop in settings) {
@@ -174,20 +181,30 @@ function settingsToUrl(settings) {
                         value = value.split('-').map(val=>{
                             return val.substring(0,1).toUpperCase()+val.substring(1)
                         }).join('+')
+
+                        console.log('family:', value);
                     }
                     queryObj[subProp].push(value)
                 })
+
             } 
+            
+
             else {
                 //add value array
                 if (!queryObj[prop]) {
                     queryObj[prop] = []
                 }
+                //queryObj[prop] = vals.map(val => { return val.toString().replaceAll(' ', '+') })
                 queryObj[prop].push(...vals)
+
+                console.log('not fav', queryObj[prop], prop);
 
             }
         }
     }
+
+    console.log('query', queryObj);
 
     let operator = '?';
     for (prop in queryObj) {
@@ -203,6 +220,8 @@ function settingsToUrl(settings) {
     //update url
     queryUrl = queryUrl ? queryUrl : window.location.origin + window.location.pathname;
     window.history.replaceState({ path: queryUrl }, '', queryUrl);
+
+    console.log('queryUrl', queryUrl);
     return queryUrl;
 
 }
@@ -211,11 +230,11 @@ function settingsToUrl(settings) {
 function renderAccessConfirmCheckbox(target){
 
     let checkMarkup=
-    `<section id="sectionPrivacy" class="section-privacy input-wrap mrg-1em mrg-btt pdd-0-5em">
+    `<div class="input-wrap mrg-1em mrg-btt">
     <h3>Privacy settings</h3>
-    <p>Some functions like fontkit creation and font preview require access to google servers. </<br>Your settings are saved in local storage under the key "gff_settings". <br> Your confirmation can be rejected at any time by unchecking the below checkbox!</p>
+    <p>Some functions like fontkit creation and font preview require access to google servers</<br>Your settings will be saved in local storage</p>
     <label><input id="inputConfirmAccess" name="apiAccess" type="checkbox" value="true"> Allow loading data from google servers</label>
-    </section>`;
+    </div>`;
 
     if(target) target.insertAdjacentHTML('beforeend', checkMarkup)
 
@@ -240,7 +259,6 @@ function bindConfirmInput(inp){
         //hide in item view if confirmed
         if(mainItem && settings.confirmAccess){
             confirmAccessWrap.classList.add('dsp-non')
-            //updateConfirmAccess()
         }
 
         inp.checked = settings.confirmAccess;
@@ -254,19 +272,7 @@ function bindConfirmInput(inp){
             }
         })
     }
-}
 
 
-function updateConfirmAccess(){
-    //alert('update'+settings.confirmAccess)
-    if(!inputConfirmAccess) return
-    if(settings.confirmAccess){
-        //confirmAccessWrap.classList.add('dsp-non')
-        inputConfirmAccess.checked = true;
-    }else{
-        //confirmAccessWrap.classList.remove('dsp-non')
-        inputConfirmAccess.checked = false;
-    }
 }
 //ulFiltered
-

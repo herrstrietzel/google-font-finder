@@ -233,7 +233,6 @@ details>details{
 #confirmAccessWrap {
     background: rgb(255, 0, 0);
     color: #fff;
-    padding: 1em;
     border-radius: 0.5em;
 }
 
@@ -260,6 +259,18 @@ nav a {
 .svg-preview:hover {
     fill: var(--color-focus);
 }
+
+.svg-preview {
+    transform-origin: left;
+    transition: 0.3s
+}
+
+.font-item:hover .svg-preview {
+    color: var(--color:focus);
+    transform: scale(1.2);
+    transform-box: fill-box
+}
+
 
 .darkmode {
     --focus-color: #fff;

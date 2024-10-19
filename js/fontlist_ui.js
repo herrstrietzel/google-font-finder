@@ -49,7 +49,7 @@ async function initFontList(useCache = true) {
 
     if (filterInputsRes.ok) {
         checkboxesHtml = await filterInputsRes.text()
-        console.log('use cached filterInputsRes');
+        //console.log('use cached filterInputsRes');
     } else {
         checkboxesHtml = await getFilterHTML(fontList, presetsFilter);
 
@@ -76,7 +76,7 @@ async function initFontList(useCache = true) {
 
     if (fontListRes.ok) {
         ulFilteredHTML = await fontListRes.text()
-        console.log('use cached');
+        //console.log('use cached');
         //console.log(fontListHtml);
     } else {
         ulFilteredHTML = renderFontList();
@@ -144,7 +144,7 @@ async function initFontList(useCache = true) {
 
     if (datalistRes.ok) {
         optionsHtml = await datalistRes.text()
-        console.log('use cached datalist');
+        //console.log('use cached datalist');
     } else {
         optionsHtml = '<datalist id="fontFamilyList">';
         fontList.forEach(font => {
@@ -200,7 +200,6 @@ async function initFontList(useCache = true) {
             filterArr = getCurrentFilters(filterInputs)
             settings.filters = filterArr;
             saveSettings(storageName, settings)
-
         })
     })
 
