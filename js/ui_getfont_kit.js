@@ -3,9 +3,8 @@
 let inIframe = window.self !== window.top;
 
 if(!inIframe ){
-    headerLogo.classList.remove('dsp-non')
+    document.body.classList.remove('item-in-iframe')
 }
-
 
 
 // init UI
@@ -103,8 +102,11 @@ if(!inIframe ){
     filelinks += `<p class="font-files mrg-0"><strong>menu:</strong> <a href="${menu}">(only font name subset)</a></p>`;
     for (files in fileFormats) {
 
+        let isVF = files.includes('variable') ? true : false;
+        let classVF = isVF ? 'vf' : '';
+
         filelinks += `
-            <li class="font-files mrg-0"><strong>${files}:</strong> `;
+            <li class="font-files mrg-0 ${classVF}"><strong>${files}:</strong> `;
         for (variant in fileFormats[files]) {
             filelinks += `<a href="${fileFormats[files][variant]}">${variant}</a> `
         }
@@ -252,8 +254,6 @@ if(!inIframe ){
 
     let cssData = { static: { css: '', files: [] }, variable: { css: '', files: [] } }
     if (settings.confirmAccess) cssData = await getFilteredFontData(properties, filter, useProxy);
-    //console.log('cssData', cssData);
-
 
     let fontExportData = {
         variable: cssData.variable,

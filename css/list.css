@@ -214,6 +214,11 @@ details>details{
     margin-top: -2em;
 }
 
+
+.item-in-iframe .header-logo{
+    display: none;
+}
+
 .svg-logo {
     font-size: 1.25em;
     height: 4em;
