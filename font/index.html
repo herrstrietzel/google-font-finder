@@ -8,41 +8,46 @@
     <meta name="description"
         content="Create fontkits by properties like category, supported languages, variable axes, OT features or supported styles">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
-    <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#000000">
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon/favicon-16x16.png">
+    <link rel="mask-icon" href="../img/favicon/safari-pinned-tab.svg" color="#000000">
     <meta name="theme-color" content="#ffffff">
 
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="lib/details-enhanced/details-enhanced.css">
-    <link rel="stylesheet" href="css/list.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/list.css">
 
+
+
+    <!--details enhanced -->
+    <!-- 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/herrstrietzel/details-enhanced@main/v1/details-enhanced.css">
+        <script src="https://cdn.jsdelivr.net/gh/herrstrietzel/details-enhanced@main/v1/details-enhanced.js" defer></script>
+
+    -->
 
 
     <!--icons -->
-    <link rel="stylesheet" href="lib/ps-icons/ps-icons.css">
+    <link rel="stylesheet" href="../lib/ps-icons/ps-icons.css">
 
 
 
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.2.2/dist/jszip.js" defer></script>
-    <script src="js/fontlist_globals.js" defer></script>
-    <script src="js/getGfontQueryUrl.js" defer></script>
-    <script src="js/ui_getfont_kit.js" defer></script>
-    <script src="lib/ps-filter/ps-filter.js" defer></script>
-    <script src="js/save_favs.js" defer></script>
+    <script src="../js/fontlist_globals.js" defer></script>
+    <script src="../js/getGfontQueryUrl.js" defer></script>
+    <script src="../js/ui_getfont_kit.js" defer></script>
+    <script src="../lib/ps-filter/ps-filter.js" defer></script>
+    <script src="../js/save_favs.js" defer></script>
 
 
-    <script src="lib/ps-icons/ps-icons.js" defer></script>
+    <script src="../lib/ps-icons/ps-icons.js" defer></script>
 
 
-    <link rel="stylesheet" href="lib/ps-style-inputs/ps-style-inputs.css">
-    <script src="lib/ps-style-inputs/ps-style-inputs.js" defer></script>
+    <link rel="stylesheet" href="../lib/ps-style-inputs/ps-style-inputs.css">
+    <script src="../lib/ps-style-inputs/ps-style-inputs.js" defer></script>
 
-    <script src="js/toggle_darkmode.js" defer></script>
-
-
+    <script src="../js/toggle_darkmode.js" defer></script>
 
 
     <!--temporary font styles for previews -->
@@ -51,7 +56,7 @@
 
 </head>
 
-<body class="item-in-iframe">
+<body class="item-in-iframe" data-dir='../' data-icon-sprite="../lib/ps-icons/ps-icons.svg">
     <!-- load styles -->
     <style id="fontStyle"></style>
     <header id="headerLogo" class="header-logo pdd-1em ">
@@ -289,5 +294,23 @@
 
 
 </body>
+
+<script>
+
+/*
+window.addEventListener('DOMContentLoaded', e => {
+  (async () => {
+    let spriteSVGUrl = SVGPathUrl ? SVGPathUrl : '../lib/ps-icons/ps-icons.svg';
+    loadIconAssets(spriteSVGUrl);
+    injectIcons();
+  })();
+
+})
+*/
+
+
+
+
+</script>
 
 </html>

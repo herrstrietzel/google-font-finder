@@ -1,10 +1,14 @@
 
+
+let parentDirData = document.body.dataset.dir;
+let parentDir = parentDirData ? parentDirData : './';
 // save to server script
-let phpUrl = 'php/save_json.php';
+let phpUrl = parentDir+'php/save_json.php';
 let hasPhp = false;
 let useProxy = false;
 //proxy url if php is available
-let proxyUrl = window.location.href.split('/').slice(0, -1).join('/') + '/php/proxy/';
+//let proxyUrl = window.location.href.split('/').slice(0, -1).join('/') + parentDir+'/php/proxy/';
+let proxyUrl = parentDir+'php/proxy/';
 
 
 // inputs and selectors
@@ -24,7 +28,7 @@ let inputFontFamily = document.getElementById('inputFontFamily');
 
 
 // use cached version or API request
-let fontList_cache_url = 'cache/fontList_merged.json';
+let fontList_cache_url = parentDir+'cache/fontList_merged.json';
 let fontList = [], filter;
 
 

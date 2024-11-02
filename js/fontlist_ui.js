@@ -9,6 +9,13 @@ useCache = false;
 //console.log('settings', settings);
 initFontList(useCache);
 
+/*
+setTimeout(()=>{
+    enhanceDetails();
+},1000)
+*/
+
+
 //init feather icons
 //feather.replace();
 
@@ -16,14 +23,7 @@ initFontList(useCache);
 async function initFontList(useCache = true) {
 
 
-    /*
-    let visited = settings.visited;
-    if (visited) {
-        //alert('visited')
-        imgLogo.src = 'img/logo/gffi-logo.svg'
-    }
-*/
-
+    console.log('init font list');
     // reset list and filters
     ulFiltered.innerHTML = '';
     asideFilter.innerHTML = '';
@@ -34,10 +34,8 @@ async function initFontList(useCache = true) {
     let res = await (fetch(fontList_cache_url))
     fontList = res.ok ? await (res).json() : [];
     fontListFiltered = fontList
-    //console.log(fontListFiltered);
 
 
-    //let t0 = performance.timeOrigin + performance.now();
 
     /**
      * render filter boxes
@@ -90,6 +88,8 @@ async function initFontList(useCache = true) {
 
     // render font list
     ulFiltered.insertAdjacentHTML('beforeend', ulFilteredHTML)
+
+
 
 
     // filterListByDate(ulFiltered)
@@ -225,6 +225,7 @@ async function initFontList(useCache = true) {
     saveSettings(storageName, settings)
 
     //document.body.classList.replace('init', 'loaded');
+
 }
 
 
@@ -375,7 +376,7 @@ function renderFontList() {
             data-modified="${item.dateAdded}" 
             data-category="${familyFilter}, ${cats}">
                 <div class="font-item-preview-wrp dsp-flx alg-itm-flx-end  mrg-1-5em mrg-top">
-                    <a href="item.html?family=${familyUrl}" class="a-fontkit --btn-fontkit" data-dialog="#dialog" data-dialog-src="item.html?family=${familyUrl}" >
+                    <a href="font/?family=${familyUrl}" class="a-fontkit --btn-fontkit" data-dialog="#dialog" data-dialog-src="font/?family=${familyUrl}" >
                         ${previewImg} 
                     </a>
                     <span class="label-wrp">${labelVF} &nbsp; ${btnFav}</span>
