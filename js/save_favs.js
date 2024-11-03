@@ -1,13 +1,14 @@
+let favCounter = document.getElementById('favCounter')
+let btnResetFavs = document.getElementById('btnResetFavs')
+let btnShowFavs = document.getElementById('btnShowFavs')
+
+
 function initFavBtns() {
     let favBtns = document.querySelectorAll('.btn-fav');
     //let favs = settings.favs
-    let favCounter = document.getElementById('favCounter')
-    let btnResetFavs = document.getElementById('btnResetFavs')
-    let btnShowFavs = document.getElementById('btnShowFavs')
 
     //console.log('update favs');
-    updateFavReport();
-
+    updateFavReport(settings);
     bindFavbtns()
 
 
@@ -17,60 +18,13 @@ function initFavBtns() {
             //updateFavItems()
             //settings = JSON.parse(localStorage.getItem('gff_settings'))
             settings = getSettings(storageName)
-            toggleFavBtns();
-            updateFavReport()
+            toggleFavBtns(settings);
+            updateFavReport(settings)
             updateConfirmAccess()
         })
     })
 
-    function toggleFavBtns() {
-        //alert('upd')
-        let favBtns = document.querySelectorAll('.btn-fav');
-        //console.log(settings.favs);
 
-        favBtns.forEach(btn => {
-            let family = btn.dataset.fav;
-            let index = settings.favs.indexOf(family)
-
-            if (index > -1) {
-                btn.classList.add('btn-fav-active')
-            } else {
-                btn.classList.remove('btn-fav-active')
-
-            }
-        })
-
-    }
-
-
-    function updateFavReport() {
-        if (favCounter) {
-            favCounter.textContent = settings.favs ? settings.favs.length : 0;
-            let favList = '<ul id="ulFavs" class="ul-favs">';
-            let favArr = settings.favs ? settings.favs : [];
-            favArr.forEach(fav => {
-                let familyUrl = fav.replaceAll(' ', '+');
-
-                favList +=
-                    `<li class="li-fav">
-                    <button class="btn-fav btn-fav-active" data-fav="${fav}" title="Add to favorites">
-                    <svg viewBox="0 0 114 100" class="icn-svg icn-heart ">
-                    <use href="#icn-heart" class="icn-fav" /></svg>
-                    </button>
-                    <a href="item.html?family=${familyUrl}" data-dialog-src="item.html?family=${familyUrl}" data-dialog="#dialog">${fav}</a>
-                </li>`
-            })
-            favList += `</ul>`;
-            sectionFavs.innerHTML = favList;
-            // add events
-            bindFavbtns()
-
-
-            //bind dialog btns
-            bindDialogBtns('dialog')
-
-        }
-    }
 
     // reset
     if (btnResetFavs) {
@@ -104,89 +58,144 @@ function initFavBtns() {
         btnShowFavs.addEventListener('click', e => {
             let selectorInput = '.inpFilter';
             //resetFilters(selectorInput);
-            updateFavItems();
+            updateFavItems(settings);
             //alert('oi')
         })
     }
 
+}
+
+function toggleFavBtns(settings={}) {
+    //alert('upd')
+    let favBtns = document.querySelectorAll('.btn-fav');
+    //console.log('favs', settings.favs);
+    //if(!settings.favs) settings.favs=[];
+
+    favBtns.forEach(btn => {
+        let family = btn.dataset.fav;
+        let index = settings.favs.indexOf(family)
+
+        //console.log(btn);
+        if (index > -1 && settings.favs.length) {
+            //console.log('add');
+            btn.classList.add('btn-fav-active')
+        } else {
+            //console.log('remove');
+            btn.classList.remove('btn-fav-active')
+
+        }
+    })
+}
 
 
-    function updateFavItems() {
-        let items = document.querySelectorAll(`.font-item`);
-        items.forEach(item => {
+function updateFavItems(settings) {
+    let items = document.querySelectorAll(`.font-item`);
+    items.forEach(item => {
 
-            let family = item.dataset.family;
-            if (settings.favs.includes(family)) {
-                item.classList.add('show_filtered')
-                item.classList.remove('hide_filtered')
+        let family = item.dataset.family;
+        if (settings.favs.includes(family)) {
+            item.classList.add('show_filtered')
+            item.classList.remove('hide_filtered')
 
-            } else {
-                item.classList.remove('show_filtered')
-                item.classList.add('hide_filtered')
-            }
+        } else {
+            item.classList.remove('show_filtered')
+            item.classList.add('hide_filtered')
+        }
 
+    })
+}
+
+
+
+function bindFavbtns() {
+    let favBtns = document.querySelectorAll('.btn-fav');
+    //console.log(settings);
+
+    favBtns.forEach(btn => {
+
+        let family = btn.dataset.fav;
+        if(!settings.favs) settings.favs = [];
+
+        let index = settings.favs && settings.favs ? settings.favs.indexOf(family) : -1;
+
+        if (index > -1) {
+            btn.classList.add('btn-fav-active')
+        }
+
+        // add event listener for new buttons
+        if (!btn.classList.contains('btn-fav-ready')) {
+
+            //console.log('add click', family);
+            btn.classList.add('btn-fav-ready');
+
+            btn.addEventListener('click', e => {
+                let family = btn.dataset.fav;
+                let favs = settings.favs
+                let index = settings.favs ? favs.indexOf(family) : -1;
+
+                //remove from favs
+                if (index > -1) {
+                    //console.log('remove');
+                    settings.favs.splice(index, 1)
+                    btn.classList.remove('btn-fav-active')
+                }
+                // add
+                else {
+                    //console.log('add');
+                    settings.favs.push(family)
+                    btn.classList.add('btn-fav-active')
+                }
+
+                //save to storage
+                saveSettings(storageName, settings)
+
+                //update counter
+                updateFavReport(settings)
+                toggleFavBtns(settings);
+                //console.log('update fav');
+
+            })
+        }
+    })
+}
+
+
+
+function updateFavReport(settings) {
+    
+    /*sectionFavs.innerHTML = '';
+    console.log('updatefavs', settings);
+    favCounter.textContent = settings.favs ? settings.favs.length : 0;
+    */
+
+
+    if (favCounter) {
+
+        favCounter.textContent = settings.favs ? settings.favs.length : 0;
+        let favList = '<ul id="ulFavs" class="ul-favs">';
+        let favArr = settings.favs ? settings.favs : [];
+
+
+        favArr.forEach(fav => {
+            let familyUrl = fav.replaceAll(' ', '+');
+
+            favList +=
+                `<li class="li-fav">
+                <button class="btn-fav btn-fav-active" data-fav="${fav}" title="Add to favorites">
+                <svg viewBox="0 0 114 100" class="icn-svg icn-heart ">
+                <use href="#icn-heart" class="icn-fav" /></svg>
+                </button>
+                <a href="item.html?family=${familyUrl}" data-dialog-src="item.html?family=${familyUrl}" data-dialog="#dialog">${fav}</a>
+            </li>`
         })
-    }
+        favList += `</ul>`;
+        sectionFavs.innerHTML = favList;
+        // add events
+        bindFavbtns()
 
 
-
-    function bindFavbtns() {
-        let favBtns = document.querySelectorAll('.btn-fav');
-        //console.log(settings);
-
-        favBtns.forEach(btn => {
-
-            let family = btn.dataset.fav;
-            let index = settings.favs.indexOf(family)
-
-            if (index > -1) {
-                btn.classList.add('btn-fav-active')
-            }
-
-            // add event listener for new buttons
-            if (!btn.classList.contains('btn-fav-ready')) {
-
-                //console.log('add click', family);
-                btn.classList.add('btn-fav-ready');
-
-                btn.addEventListener('click', e => {
-                    let family = btn.dataset.fav;
-                    let favs = settings.favs
-                    let index = favs.indexOf(family)
-
-                    //remove from favs
-                    if (index > -1) {
-                        //console.log('remove');
-                        settings.favs.splice(index, 1)
-                        btn.classList.remove('btn-fav-active')
-                    }
-                    // add
-                    else {
-                        //console.log('add');
-                        settings.favs.push(family)
-                        btn.classList.add('btn-fav-active')
-
-                    }
-
-                    //save to storage
-                    saveSettings(storageName, settings)
-
-                    //update counter
-                    updateFavReport()
-
-                    toggleFavBtns();
-
-                    //console.log('update fav');
-
-
-                })
-            }
-        })
-
-
+        //bind dialog btns
+        bindDialogBtns('dialog')
 
     }
-
-
-
 }

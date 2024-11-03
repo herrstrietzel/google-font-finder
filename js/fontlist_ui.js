@@ -23,7 +23,7 @@ setTimeout(()=>{
 async function initFontList(useCache = true) {
 
 
-    console.log('init font list');
+    //console.log('init font list');
     // reset list and filters
     ulFiltered.innerHTML = '';
     asideFilter.innerHTML = '';
@@ -45,6 +45,11 @@ async function initFontList(useCache = true) {
     let filterInputsUrl = 'cache/fontList_filterinputs.html';
     let filterInputsRes = useCache ? await (fetch(filterInputsUrl)) : { ok: false };
 
+
+
+    checkboxesHtml = await getFilterHTML(fontList, presetsFilter, translationsFilterInputs);
+
+    /*
     if (filterInputsRes.ok) {
         checkboxesHtml = await filterInputsRes.text()
         //console.log('use cached filterInputsRes');
@@ -52,9 +57,10 @@ async function initFontList(useCache = true) {
         checkboxesHtml = await getFilterHTML(fontList, presetsFilter);
 
         if (hasPhp && useCache) {
-            saveJsonToServer(phpUrl, checkboxesHtml, '../cache/fontList_filterinputs.html');
+            //saveJsonToServer(phpUrl, checkboxesHtml, '../cache/fontList_filterinputs.html');
         }
     }
+    */
     asideFilter.insertAdjacentHTML('beforeend', checkboxesHtml)
 
 
@@ -223,14 +229,13 @@ async function initFontList(useCache = true) {
 
     settings.visited = true;
     saveSettings(storageName, settings)
-
     //document.body.classList.replace('init', 'loaded');
 
 }
 
 
 
-function setFilterInputs(filterCache) {
+function setFilterInputs(filterCache=[]) {
     filterCache.forEach(sel => {
         let family = sel.includes('family_') ? sel.split('cat_family_').splice(-1)[0] : '';
         let input = document.querySelector(`[data-filtervalue=${sel}]`)
@@ -317,6 +322,11 @@ function renderFontList() {
             <use href="${useHref}" />
         </svg>`;
 
+
+        previewImg = 
+        `<img  src="${useHref}" class="--svg-preview img-font-preview" title="${family}" alt="${family}" loading="lazy">`;
+
+
         //let fontLink = `https://fonts.google.com/specimen/${family.replaceAll(' ', '+')}`;
         let catsFilters = [];
 
@@ -393,7 +403,7 @@ function renderFontList() {
 
 
 
-async function getFilterHTML(fontList, presets = [], filterClassCache = []) {
+async function getFilterHTML(fontList, presets = [], translations={}, filterClassCache = []) {
 
     let fontListAllprops = await getFilteredGoogleFonts(fontList);
     let props = getAllFontProperties(fontListAllprops);
@@ -404,14 +414,14 @@ async function getFilterHTML(fontList, presets = [], filterClassCache = []) {
 
     // define radio boxes
     let radios = ['category'];
-    let checkboxesHtml = renderFilterBoxes(props, radios, presets, filterClassCache)
+    let checkboxesHtml = renderFilterBoxes(props, radios, presets, translations, filterClassCache)
     return checkboxesHtml
 
 }
 
 
 
-function renderFilterBoxes(props, radios = ['category'], presets = [], filterClassCache = []) {
+function renderFilterBoxes(props, radios = ['category'], presets = [], translations={}, filterClassCache = []) {
 
     let checkboxesHtml = '';
     let openAtt = '';
@@ -438,10 +448,11 @@ function renderFilterBoxes(props, radios = ['category'], presets = [], filterCla
                 })
         ].flat();
 
+        let propLabel = translations[prop] || prop;
 
         checkboxesHtml +=
             `<details ${openAtt}>
-        <summary>${prop}</summary><p class="inpWrp">`;
+        <summary>${propLabel}</summary><p class="inpWrp">`;
 
 
         let type = radios.includes(prop) ? 'radio' : 'checkbox';

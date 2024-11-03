@@ -1,14 +1,14 @@
 
+let parentDirData = document.body.dataset ? document.body.dataset.dir : '';
 
-let parentDirData = document.body.dataset.dir;
 let parentDir = parentDirData ? parentDirData : './';
 // save to server script
-let phpUrl = parentDir+'php/save_json.php';
+let phpUrl = parentDir + 'php/save_json.php';
 let hasPhp = false;
 let useProxy = false;
 //proxy url if php is available
 //let proxyUrl = window.location.href.split('/').slice(0, -1).join('/') + parentDir+'/php/proxy/';
-let proxyUrl = parentDir+'php/proxy/';
+let proxyUrl = parentDir + 'php/proxy/';
 
 
 // inputs and selectors
@@ -28,7 +28,7 @@ let inputFontFamily = document.getElementById('inputFontFamily');
 
 
 // use cached version or API request
-let fontList_cache_url = parentDir+'cache/fontList_merged.json';
+let fontList_cache_url = parentDir + 'cache/fontList_merged.json';
 let fontList = [], filter;
 
 
@@ -45,6 +45,15 @@ let filterProps = [
     'colorCapabilities',
     'subsets'
 ];
+
+let translationsFilterInputs = {
+    'category': 'Category',
+    'variants': 'Styles/variants',
+    'features': 'Opentype Features',
+    'axesNames': 'Variable Font Axes',
+    'colorCapabilities': 'Color Capabilities',
+    'subsets': 'Languages/subsets'
+}
 
 // filter presets: opened by default
 let presetsFilter = ['category', 'variants'];
@@ -86,9 +95,10 @@ function saveSettings(storageName, settings) {
 
 }
 
-if(btnResetSettings){
-    btnResetSettings.onclick=()=>{
+if (btnResetSettings) {
+    btnResetSettings.onclick = () => {
         resetSettings(storageName, settings)
+        //alert('oi')
     }
 }
 
@@ -97,8 +107,38 @@ function resetSettings(storageName, settings = {}, prop = '') {
         settings[prop] = []
         localStorage.setItem(storageName, JSON.stringify(settings))
     } else {
-        localStorage.removeItem(storageName)
+        settings = {favs:[], filters:[]}
+        localStorage.setItem(storageName, JSON.stringify(settings))
+        //localStorage.removeItem(storageName, '')
     }
+    //saveSettings(storageName, settings)
+    //setFilterInputs([])
+    //resetFilters(selectorInput);
+
+
+    let filterInputs = document.querySelectorAll(`${selectorInput}`);
+    inputConfirmAccess.checked = false;
+
+    filterInputs.forEach(input => {
+        //update filter object
+        if (input.type === 'checkbox' || input.type === 'radio') {
+            input.checked = false;
+        } else {
+            input.value = '';
+        }
+    })
+    filterInputs[0].dispatchEvent(new Event('input'));
+
+    //update favs
+    updateFavReport(settings);
+    toggleFavBtns(settings); 
+
+    settingsToUrl(settings)
+
+    //resetFilters(selectorInput)
+    //updateFavItems(settings);
+
+
 }
 
 
@@ -125,7 +165,7 @@ function decodeURlToSettings() {
     let params = Object.fromEntries(query.entries());
 
     //get font family
-    if(inputFontFamily && params.family){
+    if (inputFontFamily && params.family) {
         inputFontFamily.value = params.family;
     }
 
@@ -137,10 +177,10 @@ function decodeURlToSettings() {
         let item = params[prop];
 
 
-        let filterCats = [item.split(',')].flat().map(val => { return `cat_${prop}_${val.toLowerCase().replace(/[ |+]/gi,'-' )}` });
+        let filterCats = [item.split(',')].flat().map(val => { return `cat_${prop}_${val.toLowerCase().replace(/[ |+]/gi, '-')}` });
         filterArr.push(...filterCats)
         //console.log('filterArr', filterArr);
-        
+
     }
 
     settings.filters = filterArr;
@@ -158,10 +198,9 @@ function settingsToUrl(settings) {
     let queryUrl = '';
 
     //console.log('settingsUrl:', settings)
-
     //console.log('update settings to url');
     for (prop in settings) {
-        if (prop !== 'apiKey' && prop !== 'visited' && prop!=='darkmode' && prop!=='confirmAccess') {
+        if (prop !== 'apiKey' && prop !== 'visited' && prop !== 'darkmode' && prop !== 'confirmAccess') {
             let vals = [...settings[prop]];
 
             if (prop === 'filters') {
@@ -174,14 +213,14 @@ function settingsToUrl(settings) {
                         queryObj[subProp] = []
                     }
 
-                    if(subProp==='family'){
-                        value = value.split('-').map(val=>{
-                            return val.substring(0,1).toUpperCase()+val.substring(1)
+                    if (subProp === 'family') {
+                        value = value.split('-').map(val => {
+                            return val.substring(0, 1).toUpperCase() + val.substring(1)
                         }).join('+')
                     }
                     queryObj[subProp].push(value)
                 })
-            } 
+            }
             else {
                 //add value array
                 if (!queryObj[prop]) {
@@ -212,16 +251,16 @@ function settingsToUrl(settings) {
 }
 
 
-function renderAccessConfirmCheckbox(target){
+function renderAccessConfirmCheckbox(target) {
 
-    let checkMarkup=
-    `<section id="sectionPrivacy" class="section-privacy input-wrap mrg-1em mrg-btt pdd-0-5em">
+    let checkMarkup =
+        `<section id="sectionPrivacy" class="section-privacy input-wrap mrg-1em mrg-btt pdd-0-5em">
     <h3>Privacy settings</h3>
     <p>Some functions like fontkit creation and font preview require access to google servers. </<br>Your settings are saved in local storage under the key "gff_settings". <br> Your confirmation can be rejected at any time by unchecking the below checkbox!</p>
     <label><input id="inputConfirmAccess" name="apiAccess" type="checkbox" value="true"> Allow loading data from google servers</label>
     </section>`;
 
-    if(target) target.insertAdjacentHTML('beforeend', checkMarkup)
+    if (target) target.insertAdjacentHTML('beforeend', checkMarkup)
 
 }
 
@@ -234,25 +273,25 @@ let inputConfirmAccess = document.getElementById('inputConfirmAccess')
 bindConfirmInput(inputConfirmAccess)
 
 
-function bindConfirmInput(inp){
-    if(inp){
+function bindConfirmInput(inp) {
+    if (inp) {
 
-        if(detailsPrivacy && !settings.confirmAccess){
+        if (detailsPrivacy && !settings.confirmAccess) {
             detailsPrivacy.open = true
         }
 
         //hide in item view if confirmed
-        if(mainItem && settings.confirmAccess){
+        if (mainItem && settings.confirmAccess) {
             confirmAccessWrap.classList.add('dsp-non')
             //updateConfirmAccess()
         }
 
         inp.checked = settings.confirmAccess;
-        inp.addEventListener('click', e=>{
+        inp.addEventListener('click', e => {
             settings.confirmAccess = e.currentTarget.checked
             //console.log(settings);
             saveSettings(storageName, settings)
-            if(mainItem){
+            if (mainItem) {
                 window.location.reload();
 
             }
@@ -261,13 +300,13 @@ function bindConfirmInput(inp){
 }
 
 
-function updateConfirmAccess(){
+function updateConfirmAccess() {
     //alert('update'+settings.confirmAccess)
-    if(!inputConfirmAccess) return
-    if(settings.confirmAccess){
+    if (!inputConfirmAccess) return
+    if (settings.confirmAccess) {
         //confirmAccessWrap.classList.add('dsp-non')
         inputConfirmAccess.checked = true;
-    }else{
+    } else {
         //confirmAccessWrap.classList.remove('dsp-non')
         inputConfirmAccess.checked = false;
     }

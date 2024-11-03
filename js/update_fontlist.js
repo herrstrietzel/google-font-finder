@@ -250,7 +250,7 @@ async function parseFontsGetFeaturesAndSVGs(fontList, limit = 0) {
      */
     for (let letter in spriteDataObj) {
         let sprite = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${fontSize * 2} ${fontSize * 2}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5000 ${fontSize * 2}">
                 <style>
                     .f {
                         display: none;
