@@ -405,7 +405,7 @@ function renderFontList() {
         let isVariable = item.axesNames.length ? true : false;
         let labelVF = isVariable ? '<span class="label-type labelVF" title="is variable font">VF</span>' : '';
         //labelVF = ''+item.lastModified;
-        labelVF += ' <span class="label-type labelStatic">ST</span>';
+        //labelVF += ' <span class="label-type labelStatic">ST</span>';
         let btnFav = `<button class="btn-fav" data-fav="${family}" title="Add to favorites">
         <svg viewBox="0 0 114 100" class="icn-svg icn-heart  "><use href="#icn-heart" class="icn-fav"></use></svg></button>`;
 
@@ -421,7 +421,7 @@ function renderFontList() {
                     <a href="font/?family=${familyUrl}" class="a-fontkit --btn-fontkit" data-dialog="#dialog" data-dialog-src="font/?family=${familyUrl}" >
                         ${previewImg} 
                     </a>
-                    <span class="label-wrp">${labelVF} &nbsp; ${btnFav}</span>
+                    <span class="label-wrp">${labelVF} ${btnFav}</span>
                 </div>
             </li>`
 
