@@ -147,7 +147,7 @@ details>details{
 .svg-preview {}
 
 .label-wrp {
-    flex-grow: 1;
+    flex-grow: 0;
     flex-shrink: 0;
     margin-left: auto;
 }
