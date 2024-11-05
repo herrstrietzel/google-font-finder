@@ -48,8 +48,8 @@ textarea {
 input[type='text'],
 input[type='search'],
 input[type='date'],
-input[type='number']{
-    line-height:0.5em;
+input[type='number'] {
+    line-height: 0.5em;
 }
 
 
@@ -81,16 +81,25 @@ input[type='number']{
 .btn-default {
     text-decoration: none;
     @extend .dsp-inl-blc;
-    height:calc(var(--line-height) + (0.3em * 2) );
+    height: calc(var(--line-height) + (0.3em * 2));
     @extend .brd;
     @extend .pdd-0-3em;
-    line-height:inherit;
+    line-height: inherit;
     height: max-content;
 }
+
 
 button {
     @extend .btn-default;
 }
+
+.btn-inline {
+    background: inherit;
+    color: inherit;
+    border: none;
+    padding: inherit
+}
+
 
 
 //add border
@@ -160,6 +169,7 @@ select {
 
 .inp-typ-nmb {
     width: 3em;
+
     &::-webkit-inner-spin-button {
         opacity: 1;
     }
@@ -301,12 +311,12 @@ input[type="range"] {
 
 
 
-fieldset+fieldset{
-    margin-top:1em;
+fieldset+fieldset {
+    margin-top: 1em;
 }
 
 .inactive,
-*[disabled]{
-    opacity:0.5;
+*[disabled] {
+    opacity: 0.5;
     pointer-events: none;
 }

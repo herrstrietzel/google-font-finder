@@ -172,6 +172,10 @@ span[style*=text-decoration] {
         display: inline-block;
     }
 
+    .dsp-md-flx {
+        display: flex;
+    }
+
     .dsp-md-blc {
         display: block;
     }
@@ -199,6 +203,14 @@ span[style*=text-decoration] {
 
     .dsp-ld-non {
         display: none;
+    }
+
+    .dsp-ld-flx {
+        display: flex;
+    }
+
+    .dsp-ld-blc {
+        display: block;
     }
 
     .dsp-ld-inl-blc {

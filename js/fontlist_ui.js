@@ -19,6 +19,38 @@ setTimeout(()=>{
 //init feather icons
 //feather.replace();
 
+/**
+ * 
+ * toggle nav
+ */
+let btnToggleNav = document.querySelectorAll('.btnToggleNav');
+
+let mql = window.matchMedia("(min-width: 640px)");
+
+if ( mql.matches ) {
+    document.body.classList.replace('nav-closed', 'nav-active');
+    document.body.classList.remove('nav-init');
+    btnToggleNav.forEach(btn=>{
+        btn.classList.add('btn-active');
+    })
+}
+
+btnToggleNav.forEach(btn=>{
+    btn.addEventListener('click', (e) => {
+        if (document.body.classList.contains('nav-active')) {
+            document.body.classList.replace('nav-active', 'nav-closed')
+        } else {
+            document.body.classList.replace('nav-closed', 'nav-active')
+        }
+    
+        btnToggleNav.forEach(btn=>{
+            btn.classList.toggle('btn-active');
+        })
+        //btn.classList.toggle('btn-active');
+    })
+
+})
+
 
 async function initFontList(useCache = true) {
 
@@ -87,7 +119,7 @@ async function initFontList(useCache = true) {
 
         //save to server
         if (hasPhp && useCache) {
-             saveJsonToServer(phpUrl, ulFilteredHTML, '../cache/fontList_cache.html');
+            saveJsonToServer(phpUrl, ulFilteredHTML, '../cache/fontList_cache.html');
         }
 
     }
@@ -235,12 +267,12 @@ async function initFontList(useCache = true) {
 
 
 
-function setFilterInputs(filterCache=[]) {
+function setFilterInputs(filterCache = []) {
     filterCache.forEach(sel => {
         let family = sel.includes('family_') ? sel.split('cat_family_').splice(-1)[0] : '';
         let input = document.querySelector(`[data-filtervalue=${sel}]`)
 
-        if(!input) return false;
+        if (!input) return false;
 
         if (family) {
             input = inputFontFamily;
@@ -323,8 +355,8 @@ function renderFontList() {
         </svg>`;
 
 
-        previewImg = 
-        `<img  src="${useHref}" class="--svg-preview img-font-preview" title="${family}" alt="${family}" loading="lazy">`;
+        previewImg =
+            `<img  src="${useHref}" class="--svg-preview img-font-preview" title="${family}" alt="${family}" loading="lazy">`;
 
 
         //let fontLink = `https://fonts.google.com/specimen/${family.replaceAll(' ', '+')}`;
@@ -403,7 +435,7 @@ function renderFontList() {
 
 
 
-async function getFilterHTML(fontList, presets = [], translations={}, filterClassCache = []) {
+async function getFilterHTML(fontList, presets = [], translations = {}, filterClassCache = []) {
 
     let fontListAllprops = await getFilteredGoogleFonts(fontList);
     let props = getAllFontProperties(fontListAllprops);
@@ -421,7 +453,7 @@ async function getFilterHTML(fontList, presets = [], translations={}, filterClas
 
 
 
-function renderFilterBoxes(props, radios = ['category'], presets = [], translations={}, filterClassCache = []) {
+function renderFilterBoxes(props, radios = ['category'], presets = [], translations = {}, filterClassCache = []) {
 
     let checkboxesHtml = '';
     let openAtt = '';

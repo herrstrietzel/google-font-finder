@@ -250,7 +250,7 @@ async function parseFontsGetFeaturesAndSVGs(fontList, limit = 0) {
      */
     for (let letter in spriteDataObj) {
         let sprite = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5000 ${fontSize * 2}">
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg" viewBox="0 0 7500 ${fontSize * 2}">
                 <style>
                     .f {
                         display: none;
@@ -266,6 +266,8 @@ async function parseFontsGetFeaturesAndSVGs(fontList, limit = 0) {
             sprite += font.markup;
         })
         sprite += '</svg>';
+
+        //console.log(sprite);
 
         //update status
         statusLog.feedback = 'Saving SVGs';
@@ -286,6 +288,40 @@ async function parseFontsGetFeaturesAndSVGs(fontList, limit = 0) {
     return fontList;
 }
 
+
+
+/**
+ * get glyph map
+ */
+/*
+let fontUrl = 'https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0C4nY1M2xLER.ttf';
+getGlyphMap(fontUrl)
+
+async function getGlyphMap(fontUrl) {
+
+    let buffer = await (await fetch(fontUrl)).arrayBuffer();
+
+    // parse
+    let font = opentype.parse(buffer);
+    let glyphs = font.glyphs.glyphs;
+    glyphs = Object.values(glyphs);
+
+    //console.log(glyphs);
+
+
+    glyphs.forEach(glyph=>{
+        let {name, unicode, advanceWidth, leftSideBearing} = glyph;
+        let glyphW = advanceWidth ;
+        let pathData = glyph
+        .getPath(0, font.ascender, 100)
+        .commands;
+  
+
+        console.log(name, pathData);
+
+    })
+}
+*/
 
 
 
