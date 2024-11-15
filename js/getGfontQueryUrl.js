@@ -2,6 +2,39 @@
 /**
  * generate google font query URL
  */
+
+function generateGoogleFontAPIUrlFromItem(item) {
+
+    let variantsStatic = item.variants.map(variant => { return variant === 'italic' ? '400italic' : (variant === 'regular' ? '400' : variant) }).sort();
+
+
+    let weightsStatic = variantsStatic.map(variant => { return variant.replace(/italic/g, '').replace(/regular/g, '400') }).filter(Boolean).map(Number);
+
+    //deduplicate
+    weightsStatic = [...new Set(weightsStatic)].sort();
+
+    let hasItalics = item.variants.join(' ').includes('italic');
+    let hasRegular = item.variants.join(' ').includes('regular');
+    let styleArr = [(hasItalics ? 'italic' : ''), (hasRegular ? 'regular' : '')].filter(Boolean);
+
+
+    // sort axes alphabetically - case sensitive ([a-z],[A-Z])
+    let axesSorted = item.axes ? [item.axes.filter(item => item.tag.toLowerCase() === item.tag), item.axes.filter(item => item.tag.toUpperCase() === item.tag)].flat().map(item => { return item.tag }) : []
+
+
+    let properties = {
+        family: item.family.replaceAll(' ', '+'),
+        axesNames: axesSorted,
+        styles: styleArr,
+        variants: variantsStatic,
+        axes: item.axes,
+    }
+
+    let queryUrl = generateGoogleFontAPIUrl(properties)
+    return queryUrl
+
+}
+
 function generateGoogleFontAPIUrl(fontProperties, filter = {}) {
 
     let { family, axes } = fontProperties;
@@ -59,8 +92,8 @@ function generateGoogleFontAPIUrl(fontProperties, filter = {}) {
      * generate VF
      */
     //
-    let addItalics = ( !styles.length && fontProperties.styles.includes('italic'))  ||   styles.includes('italic') ? true : false;
-    let addRegular = (  !styles.length && fontProperties.styles.includes('regular')) || (styles.includes('regular') ) ? true : false;
+    let addItalics = (!styles.length && fontProperties.styles.includes('italic')) || styles.includes('italic') ? true : false;
+    let addRegular = (!styles.length && fontProperties.styles.includes('regular')) || (styles.includes('regular')) ? true : false;
 
     let pre_vf = addItalics ? ['ital'] : [];
     let post_vf = [];
@@ -91,11 +124,11 @@ function generateGoogleFontAPIUrl(fontProperties, filter = {}) {
 }
 
 
-function googleToProxyUrl(str, proxyUrl){
+function googleToProxyUrl(str, proxyUrl) {
     return str.replaceAll('https://fonts.googleapis.com/css2', proxyUrl);
 }
 
-function proxyToGoogleUrl(str, proxyUrl){
+function proxyToGoogleUrl(str, proxyUrl) {
     return str.replaceAll(proxyUrl, 'https://fonts.googleapis.com/css2');
 }
 
@@ -108,7 +141,7 @@ function proxyToGoogleUrl(str, proxyUrl){
 
 async function getCSSSubsetArr(href, filter = {}) {
     //console.log('href', href);
-    if(!href) return '';
+    if (!href) return '';
 
 
 
@@ -127,7 +160,7 @@ async function getCSSSubsetArr(href, filter = {}) {
 
     //if using text parameter for subsetting
     let subsetText = textSubset[0] ? textSubset[0] : '';
-    subsetRules = subsetText ? cssRules.map(rule=>{return rule.cssText}) : subsetRules;
+    subsetRules = subsetText ? cssRules.map(rule => { return rule.cssText }) : subsetRules;
 
     // collect data in object
     let newCSS = {};
@@ -182,7 +215,7 @@ function getNewCSS(subsets, filter = {}, localFilenames = true) {
             let ext = 'woff2';
 
             // new local file name
-            let fontname = fontFamily.replaceAll(' ', '') + '_' + [sub, fontWeight, (fontStyle != 'normal' ? fontStyle : ''), (fontStretch != 'normal' &&  fontStretch !=='100%' ? fontStretch : '')].filter(Boolean).map(val => { return val.trim().replaceAll('%', '').replaceAll(' ', '-') } ).join('_') + '.' + ext;
+            let fontname = fontFamily.replaceAll(' ', '') + '_' + [sub, fontWeight, (fontStyle != 'normal' ? fontStyle : ''), (fontStretch != 'normal' && fontStretch !== '100%' ? fontStretch : '')].filter(Boolean).map(val => { return val.trim().replaceAll('%', '').replaceAll(' ', '-') }).join('_') + '.' + ext;
 
             newCSS += localFilenames ? css.replaceAll(file, directory + fontname) + `\n` : css + `\n`;
             files.push({ orig: file, local: fontname, dir: directory });

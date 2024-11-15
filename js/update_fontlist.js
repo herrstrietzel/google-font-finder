@@ -129,6 +129,17 @@ async function mergeFontlists(apiURL_vf_woff2, apiURL_static_woff2, apiURL_vf_tt
         //item.files_vf_ttf = list_vf_ttf.items[i].files; return item 
     })
 
+    //get full queryURLS
+   // let itemsStatic = list_static_woff2.items;
+    //console.log('itemsStatic', itemsStatic);
+    fontList.forEach((item, i) => {
+        //let hasVF = item.axes && item.axes.length ? true : false;
+        //let key = hasVF ? `queryVF` : `queryStatic`;
+        fontList[i]['queryURLs'] = generateGoogleFontAPIUrlFromItem(item)
+    })
+
+    console.log(fontList);
+
 
     //console.log(fontList);
 
