@@ -92,10 +92,8 @@ function saveSettings(storageName, settings) {
      * filters to url
      */
     if( !window.location.href.includes('update') ){
-        console.log('not update', window.location);
         //saveSettings(storageName, settings);
         settingsToUrl(settings);
-
     }
 
 }
