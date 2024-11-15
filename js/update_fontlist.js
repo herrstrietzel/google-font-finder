@@ -138,14 +138,35 @@ async function mergeFontlists(apiURL_vf_woff2, apiURL_static_woff2, apiURL_vf_tt
         fontList[i]['queryURLs'] = generateGoogleFontAPIUrlFromItem(item)
     })
 
-    console.log(fontList);
-
-
+    //console.log(fontList);
     //console.log(fontList);
 
     return fontList;
 
 }
+
+
+async function getFontListAutocomplete(fontList){
+    /*
+    let url = 'https://herrstrietzel.github.io/google-font-finder/cache/fontList_merged.json'
+    let res = await fetch(url)
+    let list = await res.json()
+    //console.log(list);
+    */
+
+    let autoFillList = []
+    fontList.forEach(item=>{
+        let queryUrlVF = item.queryURLs.variable
+        let queryUrlStatic = item.queryURLs.static
+        if(queryUrlVF) autoFillList.push({label: item.family+' VF', url: queryUrlVF})
+        if(queryUrlStatic) autoFillList.push({label: item.family+' static', url: queryUrlStatic})
+
+    })
+    //console.log(autoFillList);
+    return autoFillList 
+
+}
+
 
 
 /**
@@ -182,6 +203,20 @@ async function updateAndSaveFontData(apiURL_vf_woff2, apiURL_static_woff2, apiUR
      */
     let fontListMergedJson = JSON.stringify(fontList)
     await saveJsonToServer(phpUrl, fontListMergedJson, '../cache/fontList_merged.json');
+
+    /**
+     * simple name list
+     */
+    let nameList = fontList.map(item=>{return {label:item.family, value:item.family.toLowerCase().replaceAll(' ','+')}})
+    await saveJsonToServer(phpUrl, JSON.stringify(nameList), '../cache/fontList_names.json');
+
+
+    /**
+     * save auto complete filelist
+     */
+    let autocompleteData = await getFontListAutocomplete(fontList)
+    await saveJsonToServer(phpUrl, JSON.stringify(autocompleteData), '../cache/fontList_autocomplete.json');
+
 
 
 }
