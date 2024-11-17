@@ -7,6 +7,24 @@ let statusLog = {
 //update font data
 let limit = 0;
 
+
+//test
+/*
+( async()=>{
+    let res = await (fetch(fontList_cache_url))
+    fontList = res.ok ? await (res).json() : [];
+    //fontListFiltered = fontList
+    
+    let opensans = fontList.filter(item=>{return item.family==='Open Sans'})[0]
+
+    let urls = generateGoogleFontAPIUrlFromItem(opensans)
+    console.log(urls);
+    console.log(opensans);
+
+})();
+*/
+
+
 window.addEventListener('DOMContentLoaded', e => {
 
     //font list
@@ -65,7 +83,7 @@ window.addEventListener('DOMContentLoaded', e => {
 
 
 
-})
+});
 
 
 
@@ -74,6 +92,10 @@ window.addEventListener('DOMContentLoaded', e => {
  * variable woff2+ttf
  * static woff2+ttf
  */
+
+
+
+
 
 
 async function mergeFontlists(apiURL_vf_woff2, apiURL_static_woff2, apiURL_vf_ttf, apiURL_static_ttf, metaUrlProxy) {

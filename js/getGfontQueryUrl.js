@@ -5,7 +5,11 @@
 
 function generateGoogleFontAPIUrlFromItem(item) {
 
-    let variantsStatic = item.variants.map(variant => { return variant === 'italic' ? '400italic' : (variant === 'regular' ? '400' : variant) }).sort();
+
+
+    let variantsStatic = [...new Set(Object.keys(item.files_static_woff2).map(item=>{ 
+        return item.replaceAll('regular', '400')   }).filter(Boolean).sort()  )]
+    //console.log(variantsStatic);
 
 
     let weightsStatic = variantsStatic.map(variant => { return variant.replace(/italic/g, '').replace(/regular/g, '400') }).filter(Boolean).map(Number);
